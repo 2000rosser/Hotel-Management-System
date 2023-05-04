@@ -1,0 +1,22 @@
+version: '3.6'
+services:
+    hotel1:
+        build: hotel1
+        image: docker.io/library/hotel1:latest
+        restart: always
+        ports:
+          - 8080:8080
+        networks:
+          - external-api
+    hms:
+        build: hms
+        image: docker.io/library/hms:latest
+        restart: always
+        ports:
+          - 8083:8083
+        networks:
+          - external-api
+
+networks:
+  external-api:
+    driver: bridge
