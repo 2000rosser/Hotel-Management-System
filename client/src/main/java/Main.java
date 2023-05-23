@@ -8,6 +8,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -38,10 +39,23 @@ public class Main {
 				if (response.isSuccessful()) {
 					String responseJson = response.body().string();
 					Application application = mapper.readValue(responseJson, Application.class);
-	
-					System.out.println("Application created with ID " + application.id);
+					RoomInfo roomInfo= new RoomInfo();
+
+					ArrayList<Quotation> quote = application.quotations;
+					roomInfo = quote.get(0).roomInfo;
+
+					System.out.println("Room Booking Quotation [" + application.id + "]");
 					for (Quotation quotation : application.quotations) {
-						System.out.println("price = " + quotation.price);
+						System.out.println("Total Price: " + quotation.totalPrice);
+						System.out.println("Price Per Night: " + roomInfo.price);
+						System.out.println("Room Type: " + roomInfo.type);
+						System.out.println("Number of Beds: " + roomInfo.beds);
+						System.out.println("Bed Size: " + roomInfo.bedSize);
+						System.out.println("Balcony Included: " + roomInfo.balcony);
+						System.out.println("View: " + roomInfo.view);
+						System.out.println("Accessibility: " + roomInfo.accessibility);
+						System.out.println("Check-In Date: " + roomInfo.checkIn);
+						System.out.println("Check-Out Date: " + roomInfo.checkOut);
 						System.out.println("|====================================================================================|\n\n");
 					}
 				} else {
@@ -56,6 +70,7 @@ public class Main {
 
 
 	public static final RoomInfo[] rooms = {
-		new RoomInfo("Single", 1, 1.0, false, "City View", false, "2023-06-01", "2023-06-03", 80)
+		new RoomInfo("Single", 1, 1.0, false, "Sea View", false, "2023-06-01", "2023-06-03", 80)
 	};
 }
+
