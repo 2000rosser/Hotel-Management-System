@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/applications")
 public class HMSController {
 
-    private static int COUNTER = 1000;
     private Map<Integer, Application> applications = new TreeMap<>();
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -35,8 +34,6 @@ public class HMSController {
         System.out.println("Creating application: " + application.id);
         applications.put(application.id, application);
 
-        String url = "http://localhost:8080/quotations"; 
-        //List<String> quotationUrls = getQuotationUrls();
         for (String quotationUrl : quotationUrls) {
             System.out.println("Requesting quotation from " + quotationUrl);
             ResponseEntity<Quotation> response = restTemplate.postForEntity(quotationUrl, roomInfo, Quotation.class);
@@ -46,15 +43,6 @@ public class HMSController {
                 System.out.println("Error requesting quotation from " + quotationUrl);
             }
         }
-        // System.out.println("Requesting quotation from room booking service");
-        // ResponseEntity<Quotation> response = restTemplate.postForEntity(url, roomInfo, Quotation.class);
-        // if (response.getStatusCode().equals(HttpStatus.CREATED)) {
-        //     application.quotations.add(response.getBody());
-        // }else{
-        //     System.out.println("Error requesting quotation from " + url);
-        // }
-        
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(application);
@@ -82,17 +70,6 @@ public class HMSController {
         }
     }
 
-    // private List<String> getQuotationUrls() {
-    //     //replace with a registration service later
-    //     List<String> urls = new ArrayList<>();
-    //     urls.add("http://localhost:8080/quotations");
-    //     urls.add("http://localhost:8081/quotations");
-    //     urls.add("http://localhost:8082/quotations");
-    //     return urls;
-    // }
-
-    
-
     @PostMapping(value = "/services", consumes = "text/plain")
     public ResponseEntity<String> addService(@RequestBody String url) {
         if (!quotationUrls.contains(url)) {
@@ -107,12 +84,6 @@ public class HMSController {
         return ResponseEntity.ok(quotationUrls);
     }
 
-
-
     @Value("${server.port}")
     private int port;
-
-    private String getHost() {
-        return "localhost:" + port;
-    }
 }

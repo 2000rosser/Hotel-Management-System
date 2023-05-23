@@ -1,22 +1,13 @@
-import java.text.NumberFormat;
-
 import service.core.RoomInfo;
 import service.core.Quotation;
 import service.core.Application;
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
-
-
 
 public class Main {
 
@@ -50,8 +41,8 @@ public class Main {
 	
 					System.out.println("Application created with ID " + application.id);
 					for (Quotation quotation : application.quotations) {
-						System.out.println("price =" + quotation.price);
-						System.out.println("|=================================================================================================================|\n\n");
+						System.out.println("price = " + quotation.price);
+						System.out.println("|====================================================================================|\n\n");
 					}
 				} else {
 					System.out.println("Failed to create application: " + response.code());
@@ -64,39 +55,6 @@ public class Main {
     }
 
 
-
-	// public static void displayProfile(ClientInfo info) {
-	// 	System.out.println("|=================================================================================================================|");
-	// 	System.out.println("|                                     |                                     |                                     |");
-	// 	System.out.println(
-	// 			"| Name: " + String.format("%1$-29s", info.name) + 
-	// 			" | Gender: " + String.format("%1$-27s", (info.gender==ClientInfo.MALE?"Male":"Female")) +
-	// 			" | Age: " + String.format("%1$-30s", info.age)+" |");
-	// 	System.out.println(
-	// 			"| Weight/Height: " + String.format("%1$-20s", info.weight+"kg/"+info.height+"m") + 
-	// 			" | Smoker: " + String.format("%1$-27s", info.smoker?"YES":"NO") +
-	// 			" | Medical Problems: " + String.format("%1$-17s", info.medicalIssues?"YES":"NO")+" |");
-	// 	System.out.println("|                                     |                                     |                                     |");
-	// 	System.out.println("|=================================================================================================================|");
-	// }
-
-	// /**
-	//  * Display a quotation nicely - note that the assumption is that the quotation will follow
-	//  * immediately after the profile (so the top of the quotation box is missing).
-	//  * 
-	//  * @param quotation
-	//  */
-	// public static void displayQuotation(Quotation quotation) {
-	// 	System.out.println(
-	// 			"| Company: " + String.format("%1$-26s", quotation.company) + 
-	// 			" | Reference: " + String.format("%1$-24s", quotation.reference) +
-	// 			" | Price: " + String.format("%1$-28s", NumberFormat.getCurrencyInstance().format(quotation.price))+" |");
-	// 	System.out.println("|=================================================================================================================|");
-	// }
-	
-	/**
-	 * Test Data
-	 */
 	public static final RoomInfo[] rooms = {
 		new RoomInfo("Single", 1, 1.0, false, "City View", false, "2023-06-01", "2023-06-03", 80),
 		new RoomInfo("Double", 1, 1.5, true, "Garden View", false, "2023-06-10", "2023-06-15", 120),

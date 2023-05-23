@@ -7,7 +7,7 @@
 
     <modules>
         <module>core</module>
-        <module>hotel1</module>
+        <module>hotel</module>
 		<module>hms</module>
 		<module>client</module>
     </modules>
