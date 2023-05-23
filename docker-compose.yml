@@ -1,8 +1,8 @@
 version: '3.6'
 services:
     hotel1:
-        build: hotel1
-        image: docker.io/library/hotel1:latest
+        build: hotel
+        image: docker.io/library/hotel:latest
         restart: always
         ports:
           - 8080:8080
