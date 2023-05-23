@@ -12,7 +12,7 @@ import org.apache.http.entity.ContentType;
 @Component
 public class QuotationUrlCommandLineRunner implements CommandLineRunner {
     
-    private String url = "http://hotel1:8080/quotations";
+    private String url = "http://hotel:8080/quotations";
 
 
     @Override
@@ -20,7 +20,7 @@ public class QuotationUrlCommandLineRunner implements CommandLineRunner {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost("http://hms:8083/applications/services");
-        StringEntity entity = new StringEntity("http://hotel1:8080/quotations", ContentType.TEXT_PLAIN);
+        StringEntity entity = new StringEntity("http://hotel:8080/quotations", ContentType.TEXT_PLAIN);
         httpPost.setEntity(entity);
         HttpResponse response = httpClient.execute(httpPost);
 
