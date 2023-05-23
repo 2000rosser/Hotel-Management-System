@@ -56,11 +56,6 @@ public class Main {
 
 
 	public static final RoomInfo[] rooms = {
-		new RoomInfo("Single", 1, 1.0, false, "City View", false, "2023-06-01", "2023-06-03", 80),
-		new RoomInfo("Double", 1, 1.5, true, "Garden View", false, "2023-06-10", "2023-06-15", 120),
-		new RoomInfo("Twin", 2, 1.0, false, "Sea View", true, "2023-07-01", "2023-07-05", 100),
-		new RoomInfo("Suite", 2, 2.0, true, "City View", false, "2023-07-20", "2023-07-25", 200),
-		new RoomInfo("Double", 1, 1.5, false, "Garden View", true, "2023-08-01", "2023-08-10", 110),
-		new RoomInfo("Twin", 2, 1.0, true, "Sea View", false, "2023-08-15", "2023-08-20", 90)
+		new RoomInfo("Single", 1, 1.0, false, "City View", false, "2023-06-01", "2023-06-03", 80)
 	};
 }

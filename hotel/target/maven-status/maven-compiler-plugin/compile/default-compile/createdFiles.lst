@@ -1,4 +1,8 @@
+service\service\HotelService.class
+service\controllers\RoomController.class
+service\service\RoomService.class
+service\model\Room.class
 service\Application.class
+service\repository\RoomRepository.class
 service\controllers\HotelController.class
 service\QuotationUrlCommandLineRunner.class
-service\hotel\HotelService.class
