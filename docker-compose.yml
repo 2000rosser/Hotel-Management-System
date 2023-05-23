@@ -1,22 +1,23 @@
 version: '3.6'
 services:
-    hotel1:
-        build: hotel
+    hotel:
+        build: ./hotel
         image: docker.io/library/hotel:latest
         restart: always
+        volumes:
+          - ./hotel-data:/data
         ports:
           - 8080:8080
         networks:
           - external-api
     hms:
-        build: hms
+        build: ./hms
         image: docker.io/library/hms:latest
         restart: always
         ports:
           - 8083:8083
         networks:
           - external-api
-
 networks:
   external-api:
     driver: bridge
