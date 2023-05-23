@@ -17,9 +17,11 @@ import service.core.Application;
 import service.core.RoomInfo;
 import service.core.Quotation;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/applications")
+@CrossOrigin(origins = "*")
 public class HMSController {
 
     private Map<Integer, Application> applications = new TreeMap<>();
