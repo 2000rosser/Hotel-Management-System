@@ -63,6 +63,4 @@ public class Main {
 		new RoomInfo("Double", 1, 1.5, false, "Garden View", true, "2023-08-01", "2023-08-10", 110),
 		new RoomInfo("Twin", 2, 1.0, true, "Sea View", false, "2023-08-15", "2023-08-20", 90)
 	};
-	
-
 }
