@@ -7,9 +7,10 @@
 
     <modules>
         <module>core</module>
+        <module>client</module>
+        <module>hms</module>
         <module>hotel</module>
-		<module>hms</module>
-		<module>client</module>
+        <module>roombooking</module>
     </modules>
 
     
