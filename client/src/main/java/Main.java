@@ -46,9 +46,20 @@ public class Main {
 					Quotation cheapestQuotation = application.quotations.get(0);
 					RoomInfo cheapestRoomInfo = cheapestQuotation.roomInfo;
                     for (Quotation quotation : application.quotations) {
-						System.out.println("price = " + quotation.totalPrice);
-                        System.out.println("price = " + cheapestRoomInfo.price);
-                        System.out.println("|====================================================================================|\n\n");
+						System.out.println("Total Price: " + quotation.totalPrice);
+                        System.out.println("Price Per Night: " + cheapestRoomInfo.price);
+						System.out.println("Room Type:: " + cheapestRoomInfo.type);
+						System.out.println("Number of Beds: " + cheapestRoomInfo.beds);
+						System.out.println("Bed Size: " + cheapestRoomInfo.bedSize);
+						System.out.println("Balcony Included: " + cheapestRoomInfo.balcony);
+						System.out.println("View: " + cheapestRoomInfo.view);
+						System.out.println("Accessibility: " + cheapestRoomInfo.accessibility);
+						System.out.println("Check-In Date: " + cheapestRoomInfo.checkIn);
+						System.out.println("Check-Out Date: " + cheapestRoomInfo.checkOut);
+                        System.out.println("|============================================|\n\n\n\n");
+						System.out.println("|=============================|\n\n");
+						System.out.println("|=============BOOK============|\n\n");
+						System.out.println("|=============================|\n\n");
                     }
                 } else {
                     System.out.println("Failed to create application. Server response code: " + response.code());
@@ -62,6 +73,6 @@ public class Main {
 
 
 	public static final RoomInfo[] rooms = {
-		new RoomInfo("Single", 1, 1.0, false, "City View", false, "2023-06-01", "2023-06-03", 80)
+		new RoomInfo("Single", 1, 1.0, false, "Sea View", false, "2023-06-01", "2023-06-03", 80)
 	};
 }

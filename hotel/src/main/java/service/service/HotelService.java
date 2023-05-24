@@ -48,8 +48,8 @@ public class HotelService extends AbstractQuotationService {
 			throw new IllegalArgumentException("Rooms cannot be null.");
 		}
 		for (Room room : rooms) {
-
-			// if (roomInfo.type.equals(room.getType()) && roomInfo.beds == room.getBeds() && roomInfo.bedSize == room.getBedType() && roomInfo.balcony == room.isBalcony() && roomInfo.view.equals(room.getView()) && roomInfo.accessibility == room.isAccessible()) {
+			
+			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
 				long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
 				int days = Math.toIntExact(daysBetween);
 
@@ -69,22 +69,22 @@ public class HotelService extends AbstractQuotationService {
 				}
 
 				totalPrice = room.getPrice() * days + extraCosts;
-				System.out.println("Total Price: " + totalPrice);
-				System.out.println("Price Per Night: " + room.getPrice());
-				System.out.println("Room Type: " + room.getType());
-				System.out.println("Number of Beds: " + room.getBeds());
-				System.out.println("Bed Size: " + room.getBedType());
-				System.out.println("Balcony Included: " + room.isBalcony());
-				System.out.println("View: " + room.getView());
-				System.out.println("Accessibility: " + room.isAccessible());
-				System.out.println("Check-In Date: " + room.getCheckInDate());
-				System.out.println("Check-Out Date: " + room.getCheckOutDate());
-
-				//print out all the roomInfo values:
-				System.out.println("Room Type: " + roomInfo.type);
-				System.out.println("Number of Beds: " + roomInfo.beds);
+				// System.out.println("Total Price: " + totalPrice);
+				// System.out.println("Price Per Night: " + room.getPrice());
+				// System.out.println("Room Type: " + room.getType());
+				// System.out.println("Number of Beds: " + room.getBeds());
+				// System.out.println("Bed Size: " + room.getBedType());
+				// System.out.println("Balcony Included: " + room.isBalcony());
+				// System.out.println("View: " + room.getView());
+				// System.out.println("Accessibility: " + room.isAccessible());
+				// System.out.println("Check-In Date: " + room.getCheckInDate());
+				// System.out.println("Check-Out Date: " + room.getCheckOutDate());
 				return new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
-			// }
+			}
+			else
+			{
+				System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA");
+			}
 		}
 
 		return null;

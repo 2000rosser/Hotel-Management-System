@@ -1,12 +1,5 @@
 package service.core;
-import java.time.LocalDate;
 
-/**
- * Class to store the quotations returned by the quotation services
- * 
- * @author Rem
- *
- */
 public class Quotation{
 	public Quotation() {
         // Default constructor
