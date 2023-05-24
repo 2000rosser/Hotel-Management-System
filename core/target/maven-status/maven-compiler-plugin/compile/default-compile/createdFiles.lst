@@ -1,4 +1,5 @@
 service\core\AbstractQuotationService.class
 service\core\Quotation.class
 service\core\Application.class
+service\core\BookingInfo.class
 service\core\RoomInfo.class

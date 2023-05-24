@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class HotelController {
     private Map<String, Quotation> quotations = new TreeMap<>();
-    private Map<String, BookingInfo> bookings = new TreeMap<>();
+    private Map<Integer, BookingInfo> bookings = new TreeMap<>();
 
     private HotelService service;
 
