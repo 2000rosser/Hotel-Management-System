@@ -14,6 +14,13 @@ public class QuoteResponseController {
     @ResponseBody
     public String handleQuoteResponse(@RequestParam("arg") String responseArg) {
         // Process the response argument and generate the appropriate HTML content
+        StringBuilder htmlPage = new StringBuilder();
+
+        htmlPage.append("<!DOCTYPE html>");
+        htmlPage.append("<html>");
+        htmlPage.append("<title>Rooms Found</title>");
+        htmlPage.append("</head>");
+        htmlPage.append("<body>");
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -32,24 +39,21 @@ public class QuoteResponseController {
                 quoteCounter++;
             }
 
-            // Example: Return a simple HTML response
-            return "<html>\n"
-                    + "    <body>\n"
-                    + "        <h1>Quote Response</h1>\n"
-                    + "        <p>" + responseArg + "</p>\n"
-                    + "        <p>Company: " + company[0] + "</p>\n"
-                    + "    </body>\n"
-                    + "</html>";
+            htmlPage.append("<p>Company: " + company[0] + "</p>");
+            htmlPage.append("<p>Reference: " + reference[0] + "</p>");
+            htmlPage.append("<p>Price: " + price[0] + "</p>");
         }
         catch (Exception e) {
             e.printStackTrace();
             System.out.println("QuoteResponseController Exception!");
-            return "<html>\n"
-                    + "    <body>\n"
-                    + "        <h1>Error</h1>\n"
-                    + "        <p>An error occurred while processing the quote response.</p>\n"
-                    + "    </body>\n"
-                    + "</html>";
+
+            htmlPage.append("<h1>Error</h1>");
+            htmlPage.append("<p>An error occurred while processing the quote response.</p>");
         }
+
+        htmlPage.append("</body>");
+        htmlPage.append("</html>");
+
+        return htmlPage.toString();
     }
 }
