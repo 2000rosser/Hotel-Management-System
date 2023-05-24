@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import service.core.BookingInfo;
 import service.core.Quotation;
 import service.core.RoomInfo;
 import service.service.HotelService;
@@ -22,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class HotelController {
     private Map<String, Quotation> quotations = new TreeMap<>();
+    private Map<String, BookingInfo> bookings = new TreeMap<>();
+
     private HotelService service;
 
     @Autowired
@@ -63,6 +67,29 @@ public class HotelController {
                 .header("Location", url)
                 .header("Content-Location", url)
                 .body(quotation);
+    }
+
+    @PostMapping(value = "/confirmation", consumes = "application/json")
+    public ResponseEntity<BookingInfo> createBooking(
+            @RequestBody BookingInfo info) {
+        BookingInfo confirmation = service.createBooking(info);
+        bookings.put(confirmation.booking_ref, confirmation);
+        String url = "http://" + getHost() + "/confirmation/"
+                + confirmation.booking_ref;
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .header("Location", url)
+                .header("Content-Location", url)
+                .body(confirmation);
+    }
+
+    @GetMapping(value = "/confirmation/{id}", produces = { "application/json" })
+    public ResponseEntity<BookingInfo> getBooking(@PathVariable String id) {
+        BookingInfo booking = bookings.get(id);
+        if (booking == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(booking);
     }
     
 
