@@ -35,20 +35,24 @@ public class QuoteResponseController {
             for (JsonNode quotationNode : quotationsNode) {
                 company[quoteCounter] = quotationNode.get("company").asText();
                 reference[quoteCounter] = quotationNode.get("reference").asText();
-                price[quoteCounter] = quotationNode.get("price").asDouble();
+                price[quoteCounter] = quotationNode.get("totalPrice").asDouble();
+
+                htmlPage.append("<p>Company: " + company[quoteCounter] + "</p>");
+                htmlPage.append("<p>Reference: " + reference[quoteCounter] + "</p>");
+                htmlPage.append("<p>Price: " + price[quoteCounter] + "</p>");
+
                 quoteCounter++;
             }
-
-            htmlPage.append("<p>Company: " + company[0] + "</p>");
-            htmlPage.append("<p>Reference: " + reference[0] + "</p>");
-            htmlPage.append("<p>Price: " + price[0] + "</p>");
         }
         catch (Exception e) {
+            System.out.println("\n");
             e.printStackTrace();
             System.out.println("QuoteResponseController Exception!");
+            System.out.println("\n");
 
             htmlPage.append("<h1>Error</h1>");
             htmlPage.append("<p>An error occurred while processing the quote response.</p>");
+            htmlPage.append("<p>" + responseArg + "</p>");
         }
 
         htmlPage.append("</body>");
