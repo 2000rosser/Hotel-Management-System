@@ -19,8 +19,8 @@ public class Room {
     @Column
     private int beds;
 
-    @Column(name = "BED_TYPE")
-    private double bedType;
+    @Column(name = "BED_SIZE")
+    private double bedSize;
 
     @Column
     private boolean balcony;
@@ -68,12 +68,12 @@ public class Room {
         this.beds = beds;
     }
 
-    public double getBedType() {
-        return bedType;
+    public double getBedSize() {
+        return bedSize;
     }
 
-    public void setBedType(double bedType) {
-        this.bedType = bedType;
+    public void setBedType(double bedSize) {
+        this.bedSize = bedSize;
     }
 
     public boolean isBalcony() {

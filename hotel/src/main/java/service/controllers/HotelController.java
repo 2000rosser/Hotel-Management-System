@@ -51,7 +51,10 @@ public class HotelController {
     @PostMapping(value = "/quotations", consumes = "application/json")
     public ResponseEntity<Quotation> createQuotation(
             @RequestBody RoomInfo info) {
+        System.out.println("Service object: " + service);
+        System.out.println("RoomInfo object: " + info);
         Quotation quotation = service.generateQuotation(info);
+        System.out.println("Quotation object: " + quotation);
         quotations.put(quotation.reference, quotation);
         String url = "http://" + getHost() + "/quotations/"
                 + quotation.reference;

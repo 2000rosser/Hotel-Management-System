@@ -32,6 +32,7 @@ public class HMSController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Application> createApplication(
             @RequestBody RoomInfo roomInfo) {
+        System.out.println("Received a request to create an application");
         Application application = new Application(roomInfo);
         System.out.println("Creating application: " + application.id);
         applications.put(application.id, application);
@@ -41,10 +42,14 @@ public class HMSController {
             ResponseEntity<Quotation> response = restTemplate.postForEntity(quotationUrl, roomInfo, Quotation.class);
             if (response.getStatusCode().equals(HttpStatus.CREATED)) {
                 application.quotations.add(response.getBody());
-            }else{
-                System.out.println("Error requesting quotation from " + quotationUrl);
+                // print out the body of the quotation
+                System.out.println("Quotation received: " + response.getBody());
+            } else {
+                System.out.println("Error requesting quotation from " + quotationUrl + ". Response status: "
+                        + response.getStatusCode());
             }
         }
+        System.out.println("Application created and saved. Returning application with status CREATED.");
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(application);
