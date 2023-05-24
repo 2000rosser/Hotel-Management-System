@@ -35,7 +35,7 @@ public class BookingController {
         // System.out.println("Creating application: " + application.id);
         // applications.put(application.id, application);
         BookingInfo confirmed = new BookingInfo();
-        ResponseEntity<BookingInfo> response = restTemplate.postForEntity("http://localhost:8080/confirmation", bookInfo, BookingInfo.class);
+        ResponseEntity<BookingInfo> response = restTemplate.postForEntity("http://hotel:8080/confirmation", bookInfo, BookingInfo.class);
         if(response.getStatusCode().equals(HttpStatus.CREATED)){
             confirmed = response.getBody();
             System.out.println("Booking confirmation recieved" + confirmed);

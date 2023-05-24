@@ -4,6 +4,7 @@ import service.core.AbstractQuotationService;
 import service.core.BookingInfo;
 import service.core.RoomInfo;
 import service.core.Quotation;
+import service.model.Bookings;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,11 +25,13 @@ public class HotelService extends AbstractQuotationService {
 	
 
 	@Autowired
-    public HotelService(RoomService roomService) {
+    public HotelService(RoomService roomService, BookingsService bookingService) {
 		this.roomService = roomService;
+		this.bookingsService = bookingService;
 		System.out.println("HotelService is created, roomService is: " + roomService);
     }
 
+	private BookingsService bookingsService;
 
 	private RoomService roomService;
 
@@ -81,7 +84,23 @@ public class HotelService extends AbstractQuotationService {
 
 	public BookingInfo createBooking(BookingInfo info){
 
-		
+		Bookings booking = new Bookings();
+
+		booking.setBookingRef(info.booking_ref);
+		booking.setId(info.ID);
+		booking.setType(info.type);
+		booking.setBeds(info.beds);
+		booking.setBedSize(info.bedSize);
+		booking.setBalcony(info.balcony);
+		booking.setView(info.view);
+		booking.setAccessible(info.accessibility);
+		booking.setCheckInDate(info.checkIn);
+		booking.setCheckOutDate(info.checkOut);
+		booking.setPrice(info.price);
+		booking.setBooked(true);
+
+
+		bookingsService.saveOrUpdate(booking);		
 
 		return info;
 	}

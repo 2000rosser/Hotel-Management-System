@@ -67,6 +67,8 @@ public class Main {
             } catch (IOException e) {
                 System.out.println("Failed to send request to server. Exception: " + e.getMessage());
             }
+
+            
         }
         System.exit(0);
     }

@@ -55,6 +55,14 @@ public class Bookings {
         return id;
     }
 
+    public void setBookingRef(int booking_ref) {
+        this.booking_ref = booking_ref;
+    }
+
+    public int getBookingRef() {
+        return booking_ref;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -79,7 +87,7 @@ public class Bookings {
         return bedSize;
     }
 
-    public void setBedType(double bedSize) {
+    public void setBedSize(double bedSize) {
         this.bedSize = bedSize;
     }
 
