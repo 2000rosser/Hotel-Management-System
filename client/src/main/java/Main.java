@@ -41,7 +41,7 @@ public class Main {
                     String responseJson = response.body().string();
                     Application application = mapper.readValue(responseJson, Application.class);
 
-                    System.out.println("Application created with ID " + application.id);
+                    System.out.println("Booking Reference " + application.id);
 
 					Quotation cheapestQuotation = application.quotations.get(0);
 					RoomInfo cheapestRoomInfo = cheapestQuotation.roomInfo;
