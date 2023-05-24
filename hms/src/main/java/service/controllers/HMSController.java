@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/applications")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class HMSController {
 
     private Map<Integer, Application> applications = new TreeMap<>();
