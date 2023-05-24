@@ -13,9 +13,6 @@ import org.springframework.stereotype.Service;
 
 import service.model.Room;
 
-
-
-
 @Service
 public class HotelService extends AbstractQuotationService {
 	// All references are to be prefixed with an AF (e.g. AF001000)
@@ -69,16 +66,6 @@ public class HotelService extends AbstractQuotationService {
 				}
 
 				totalPrice = room.getPrice() * days + extraCosts;
-				// System.out.println("Total Price: " + totalPrice);
-				// System.out.println("Price Per Night: " + room.getPrice());
-				// System.out.println("Room Type: " + room.getType());
-				// System.out.println("Number of Beds: " + room.getBeds());
-				// System.out.println("Bed Size: " + room.getBedType());
-				// System.out.println("Balcony Included: " + room.isBalcony());
-				// System.out.println("View: " + room.getView());
-				// System.out.println("Accessibility: " + room.isAccessible());
-				// System.out.println("Check-In Date: " + room.getCheckInDate());
-				// System.out.println("Check-Out Date: " + room.getCheckOutDate());
 				return new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
 			}
 			else
