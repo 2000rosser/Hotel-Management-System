@@ -1,6 +1,7 @@
 package service.service;
 
 import service.core.AbstractQuotationService;
+import service.core.BookingInfo;
 import service.core.RoomInfo;
 import service.core.Quotation;
 
@@ -88,6 +89,14 @@ public class HotelService extends AbstractQuotationService {
 		}
 
 		return null;
+	}
+
+
+	public BookingInfo createBooking(BookingInfo info){
+
+		
+
+		return info;
 	}
 	
 }
