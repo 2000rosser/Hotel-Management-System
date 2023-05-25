@@ -2,4 +2,5 @@ client/target
 core/target
 hms/target
 hotel/target
+client-new/target
 .idea

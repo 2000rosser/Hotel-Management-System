@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Select Room Preferences
+        </title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+    </head>
+    <body>
+        <form id="roomInfo">
+            <!--
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required><br><br>
+            -->
+
+            <label for="type">Room Type</label>
+            <select id="type" name="type">
+                <option value="Single">Single</option>
+                <option value="Double">Double</option>
+                <option value="Twin">Twin</option>
+                <option value="Suite">Suite</option>
+            </select><br><br>
+
+            <label for="beds">Number of Beds</label>
+            <select id="beds" name="beds">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select><br><br>
+
+            <label for="bedSize">Bed Size</label>
+            <select id="bedSize" name="bedSize">
+                <option value="1.0">1.0</option>
+                <option value="1.5">1.5</option>
+                <option value="2.0">2.0</option>
+            </select><br><br>
+
+            <label for="balcony">Balcony</label>
+            <input type="checkbox" id="balcony" name="balcony"><br><br>
+
+            <label for="view">View</label>
+            <select id="view" name="view">
+                <option value="City View">City View</option>
+                <option value="Garden View">Garden View</option>
+                <option value="Sea View">Sea View</option>
+            </select><br><br>
+
+            <label for="accessibility">Accessibility Access</label>
+            <input type="checkbox" id="accessibility" name="accessibility"><br><br>
+
+            <label for="startdate">Start Date</label>
+            <input type="date" id="startdate" name="startdate" required><br><br>
+
+            <label for="enddate">End Date</label>
+            <input type="date" id="enddate" name="enddate" required><br><br>
+
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" min="0" max="1000" required>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <script>
+            document.getElementById('roomInfo').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                var url = "http://localhost:8083/applications";
+                var form = e.target;
+                var formData = new FormData(form);
+                var roomInfo = {};
+
+                formData.forEach(function(value, key) {
+                    var val = value;
+                    if (value === "on") { val = true; }
+                    roomInfo[key] = val;
+                });
+
+                console.log("Form data to be sent:", JSON.stringify(roomInfo));
+
+                fetch(url, {
+                    method:'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(roomInfo)
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        console.log("Response Ok!");
+                        response.text().then(function(responseText) {
+                            console.log("Response text:", responseText);
+                            createQuotePage(responseText);
+                        });
+                    } else {
+                        console.error('Application Creation Failed! HTTP status:', response.status);
+                        alert('Application Creation Failed!');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Processing Error! Details:', error);
+                    alert('Processing Error!');
+                });
+            });
+
+            function createQuotePage(response) {
+                var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(response);
+                console.log("Opening URL:", url);
+                window.open(url,'_blank');
+            }
+        </script>
+    </body>
+</html>
