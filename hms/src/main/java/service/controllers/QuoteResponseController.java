@@ -18,9 +18,10 @@ public class QuoteResponseController {
 
         htmlPage.append("<!DOCTYPE html>");
         htmlPage.append("<html>");
-        htmlPage.append("<title>Rooms Found</title>");
-        htmlPage.append("</head>");
-        htmlPage.append("<body>");
+        htmlPage.append("   <head>");
+        htmlPage.append("       <title>Rooms Found</title>");
+        htmlPage.append("   </head>");
+        htmlPage.append("   <body>");
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -37,38 +38,40 @@ public class QuoteResponseController {
                 reference[quoteCounter] = quotationNode.get("reference").asText();
                 price[quoteCounter] = quotationNode.get("totalPrice").asDouble();
 
-                htmlPage.append("<p>Company: " + company[quoteCounter] + "</p>");
-                htmlPage.append("<p>Reference: " + reference[quoteCounter] + "</p>");
-                htmlPage.append("<p>Price: " + price[quoteCounter] + "</p>");
+                htmlPage.append("       <p>Company: " + company[quoteCounter] + "</p>");
+                htmlPage.append("       <p>Reference: " + reference[quoteCounter] + "</p>");
+                htmlPage.append("       <p>Price: " + price[quoteCounter] + "</p>");
+
+                htmlPage.append(
+                    "       <form action=\"/payments\" method=\"get\">\n" +
+                    "          <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n" +
+                    "          <input type=\"submit\" value=\"Proceed to Payment\"/>\n" +
+                    "       </form>\n" +
+                    "       <br></br>"
+                );
 
                 quoteCounter++;
             }
-            
-
-            return "<html>\n"
-                + "    <body>\n"
-                + "        <h1>Quote Response</h1>\n"
-                + "        <p>" + responseArg + "</p>\n"
-                + "        <p>Company: " + company[0] + "</p>\n"
-                + "        <form action=\"/payments\" method=\"get\">\n"
-                + "            <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n"
-                + "            <input type=\"submit\" value=\"Proceed to Payment\"/>\n"
-                + "        </form>\n"
-                + "    </body>\n"
-                + "</html>";
 
         }
         catch (Exception e) {
             System.out.println("\n");
             System.out.println("Error processing quote response. Raw response:\n" + responseArg);
             e.printStackTrace();
-            return "<html>\n"
-                    + "    <body>\n"
-                    + "        <h1>Error</h1>\n"
-                    + "        <p>An error occurred while processing the quote response.</p>\n"
-                    + "    </body>\n"
-                    + "</html>";
+
+            htmlPage.append(
+                "       <h1>Error</h1>\n" +
+                "       <p>An error occurred while processing the quote response.</p>\n" +
+                "   </body>\n" +
+                "</html>"
+            );
         }
         
+        htmlPage.append(
+            "   </body>\n" +
+            "</html>"
+        );
+
+        return htmlPage.toString();
     }
 }
