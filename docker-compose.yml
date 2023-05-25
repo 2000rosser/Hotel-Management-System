@@ -18,6 +18,14 @@ services:
           - 8083:8083
         networks:
           - external-api
+    client-new:
+        build: ./client-new
+        image: docker.io/library/client-new:latest
+        restart: always
+        ports:
+          - 8084:8084
+        networks:
+          - external-api
 networks:
   external-api:
     driver: bridge

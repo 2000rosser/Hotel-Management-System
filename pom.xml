@@ -10,6 +10,7 @@
         <module>client</module>
         <module>hms</module>
         <module>hotel</module>
+        <module>client-new</module>
     </modules>
 
     
