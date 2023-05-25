@@ -1,3 +1,5 @@
+service\controllers\QuoteResponseController.class
+service\controllers\BookingController.class
 service\Application.class
 service\controllers\HMSController.class
-service\controllers\BookingController.class
+service\controllers\PaymentsController.class

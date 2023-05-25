@@ -36,24 +36,21 @@ public class HotelService extends AbstractQuotationService {
 	private RoomService roomService;
 
 	public Quotation generateQuotation(RoomInfo roomInfo) {
-
-
-	
 		if (roomInfo == null) {
 			throw new IllegalArgumentException("RoomInfo cannot be null.");
 		}
-
+	
 		List<Room> rooms = roomService.getAllRooms();
-
+	
 		if (rooms == null) {
 			throw new IllegalArgumentException("Rooms cannot be null.");
 		}
+	
 		for (Room room : rooms) {
-			
 			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
 				long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
 				int days = Math.toIntExact(daysBetween);
-
+	
 				// Add additional costs based on room attributes
 				double extraCosts = 0;
 				if (roomInfo.balcony) {
@@ -68,18 +65,19 @@ public class HotelService extends AbstractQuotationService {
 				else if (roomInfo.view.equals("Any View")) {
 					extraCosts += 0;
 				}
-
+	
 				totalPrice = room.getPrice() * days + extraCosts;
 				return new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
 			}
-			else
-			{
-				System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA");
-			}
 		}
-
-		return null;
+	
+		// If no matching room is found, return a Quotation for the requested RoomInfo.
+		System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
+		// Assume a default price for the non-existent room.
+		double defaultPrice = 100.0;
+		return new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo);
 	}
+	
 
 
 	public BookingInfo createBooking(BookingInfo info){

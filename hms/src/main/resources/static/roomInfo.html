@@ -77,7 +77,7 @@
                     roomInfo[key] = val;
                 });
 
-                console.log(JSON.stringify(roomInfo));
+                console.log("Form data to be sent:", JSON.stringify(roomInfo));
 
                 fetch(url, {
                     method:'POST',
@@ -88,19 +88,23 @@
                     if (response.ok) {
                         console.log("Response Ok!");
                         response.text().then(function(responseText) {
+                            console.log("Response text:", responseText);
                             createQuotePage(responseText);
                         });
                     } else {
+                        console.error('Application Creation Failed! HTTP status:', response.status);
                         alert('Application Creation Failed!');
                     }
                 })
                 .catch(function(error) {
+                    console.error('Processing Error! Details:', error);
                     alert('Processing Error!');
                 });
             });
 
             function createQuotePage(response) {
                 var url = 'http://localhost:8083/quoteResponse?arg=' + encodeURIComponent(response);
+                console.log("Opening URL:", url);
                 window.open(url,'_blank');
             }
         </script>

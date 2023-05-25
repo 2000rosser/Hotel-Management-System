@@ -43,21 +43,32 @@ public class QuoteResponseController {
 
                 quoteCounter++;
             }
+            
+
+            return "<html>\n"
+                + "    <body>\n"
+                + "        <h1>Quote Response</h1>\n"
+                + "        <p>" + responseArg + "</p>\n"
+                + "        <p>Company: " + company[0] + "</p>\n"
+                + "        <form action=\"/payments\" method=\"get\">\n"
+                + "            <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n"
+                + "            <input type=\"submit\" value=\"Proceed to Payment\"/>\n"
+                + "        </form>\n"
+                + "    </body>\n"
+                + "</html>";
+
         }
         catch (Exception e) {
             System.out.println("\n");
+            System.out.println("Error processing quote response. Raw response:\n" + responseArg);
             e.printStackTrace();
-            System.out.println("QuoteResponseController Exception!");
-            System.out.println("\n");
-
-            htmlPage.append("<h1>Error</h1>");
-            htmlPage.append("<p>An error occurred while processing the quote response.</p>");
-            htmlPage.append("<p>" + responseArg + "</p>");
+            return "<html>\n"
+                    + "    <body>\n"
+                    + "        <h1>Error</h1>\n"
+                    + "        <p>An error occurred while processing the quote response.</p>\n"
+                    + "    </body>\n"
+                    + "</html>";
         }
-
-        htmlPage.append("</body>");
-        htmlPage.append("</html>");
-
-        return htmlPage.toString();
+        
     }
 }
