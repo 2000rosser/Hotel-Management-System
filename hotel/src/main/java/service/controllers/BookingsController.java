@@ -28,9 +28,20 @@ public class BookingsController {
     }
 
     @GetMapping("/bookings/{id}")  
-    private Bookings getRoom(@PathVariable("id") int id) {  
+    private Bookings getBooking(@PathVariable("id") int id) {  
         return bookingsService.getBookingById(id);  
     }
+
+    @GetMapping("/bookings/ref/{ref}")  
+    private Bookings getBookingByRef(@PathVariable("ref") int ref) {  
+        return bookingsService.getBookingByBookingRef(ref);  
+    }
+
+    @DeleteMapping("/bookings/ref/{ref}")  
+    private void deleteBookingByRef(@PathVariable("ref") int ref) {  
+        bookingsService.deleteByBookingRef(ref);;  
+    }
+    
 
     @DeleteMapping("/bookings/{id}")  
     private void deleteBooking(@PathVariable("id") int id) {  

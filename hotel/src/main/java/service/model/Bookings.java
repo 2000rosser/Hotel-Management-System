@@ -10,15 +10,15 @@ import java.time.LocalDate;
 public class Bookings {
 
 
-    @Column
-    private int booking_ref;
-
-    @Column
-    private String booking_name;
-
     @Id
     @Column
     private int id;
+
+    @Column(name = "booking_ref")
+    private int bookingRef;
+
+    @Column
+    private String booking_name;
 
     @Column
     private String type;
@@ -55,12 +55,12 @@ public class Bookings {
         return id;
     }
 
-    public void setBookingRef(int booking_ref) {
-        this.booking_ref = booking_ref;
+    public void setBookingRef(int bookingRef) {
+        this.bookingRef = bookingRef;
     }
 
     public int getBookingRef() {
-        return booking_ref;
+        return bookingRef;
     }
 
     public void setId(int id) {
