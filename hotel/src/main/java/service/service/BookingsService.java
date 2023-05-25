@@ -20,6 +20,14 @@ public class BookingsService {
         return bookings;
     }
 
+    public Bookings getBookingByBookingRef(int booking_ref) {  
+        return bookingsRepository.findByBookingRef(booking_ref);
+    }
+
+    public void deleteByBookingRef(int booking_ref) {  
+        bookingsRepository.deleteByBookingRef(booking_ref);
+    }
+
     public Bookings getBookingById(int id) {  
         return bookingsRepository.findById(id).get();
     }

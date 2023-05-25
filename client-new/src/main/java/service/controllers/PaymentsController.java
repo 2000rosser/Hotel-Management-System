@@ -25,7 +25,7 @@ public class PaymentsController {
                     + "        <script>\n"
                     + "        function submitPayment() {\n"
                     + "            var responseArg = document.getElementById('responseArg').value;\n"
-                    + "            fetch('/booking', {\n"
+                    + "            fetch('http://localhost:8083/booking', {\n"
                     + "                method: 'POST',\n"
                     + "                headers: { 'Content-Type': 'application/json' },\n"
                     + "                body: responseArg\n"

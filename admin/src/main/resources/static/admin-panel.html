@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin Page</title>
+    </head>
+    <body>
+        <h1>Admin Page</h1>
+
+        <button onclick="location.href='/rooms.html'">Get All Rooms</button><br>
+        
+        <button onclick="location.href='/bookings.html'">Get All Bookings</button><br>
+
+        <form action="/retrieveBooking.html" method="get">
+            <label for="ref">Booking Reference:</label><br>
+            <input type="text" id="ref" name="ref"><br>
+            <input type="submit" value="Retrieve Booking">
+        </form>
+    </body>
+</html>

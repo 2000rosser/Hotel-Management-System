@@ -26,6 +26,14 @@ services:
           - 8084:8084
         networks:
           - external-api
+    admin:
+        build: ./admin
+        image: docker.io/library/admin:latest
+        restart: always
+        ports:
+          - 8085:8085
+        networks:
+          - external-api
 networks:
   external-api:
     driver: bridge
