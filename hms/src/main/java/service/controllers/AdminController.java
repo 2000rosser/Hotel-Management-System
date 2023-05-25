@@ -1,28 +1,22 @@
 package service.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import service.core.Application;
 import service.core.RoomInfo;
-import service.core.Quotation;
 import service.core.BookingInfo;
+import service.core.Checkout;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -83,6 +77,50 @@ public class AdminController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response.getBody());
+    }
+
+    @PostMapping(value = "/bookings", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<BookingInfo> retrieveBooking(
+            @RequestBody Checkout checkInfo) {
+        System.out.println("Received a request to retrieve a booking");
+        // System.out.println("Creating application: " + application.id);
+        // applications.put(application.id, application);
+        BookingInfo retrieved = new BookingInfo();
+        ResponseEntity<BookingInfo> response = restTemplate.postForEntity("http://hotel:8080/checkout", checkInfo, BookingInfo.class);
+        if(response.getStatusCode().equals(HttpStatus.OK)){
+            retrieved = response.getBody();
+            System.out.println("Booking recieved" + retrieved);
+        }else{
+            System.out.println("Error " + response.getStatusCode());
+        }
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(retrieved);
+
+       
+    }
+
+    @PostMapping(value = "/checkout", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Checkout> performCheckout(@RequestBody Checkout checkInfo) {
+        System.out.println("Received a request to retrieve a booking");
+        Checkout confirmation = new Checkout();
+        System.out.println("Deleting booking: " + checkInfo.id);
+        System.out.println("check name" + checkInfo.name);
+        System.out.println("check email" + checkInfo.email);
+        HttpEntity<Integer> entity = new HttpEntity<>(checkInfo.id);
+        ResponseEntity<String> response = restTemplate.exchange("http://hotel:8080/bookings/" + checkInfo.id, HttpMethod.DELETE, entity, String.class);
+
+        if(response.getStatusCode().equals(HttpStatus.OK) || response.getStatusCode().equals(HttpStatus.NO_CONTENT)){
+            confirmation = checkInfo;
+            System.out.println("Booking deleted");
+        } else {
+            System.out.println("Error " + response.getStatusCode());
+            return ResponseEntity.status(response.getStatusCode()).build();
+        }
+        
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(confirmation);
     }
 
 

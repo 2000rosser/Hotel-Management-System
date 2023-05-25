@@ -14,6 +14,15 @@ public class Bookings {
     @Column
     private int id;
 
+    @Column
+    private String name;
+
+    @Column
+    private String email;
+
+    @Column
+    private String phone;
+
     @Column(name = "booking_ref")
     private int bookingRef;
 
@@ -53,6 +62,30 @@ public class Bookings {
     // getters and setters
     public int getId() {
         return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public void setBookingRef(int bookingRef) {

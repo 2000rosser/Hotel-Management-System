@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Checkout</title>
+        <script>
+            function confirmBooking() {
+                let id = parseInt(document.getElementById('id').value);
+                let name = document.getElementById('name').value;
+                let email = document.getElementById('email').value;
+
+                if(id && name && email) {
+                    fetch('http://localhost:8083/bookings', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id: id,
+                            name: name,
+                            email: email
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        let bookingInfo;
+                        try {
+                            bookingInfo = JSON.parse(data); 
+                            console.log(bookingInfo); 
+                        } catch(e) {
+                            bookingInfo = null;
+                        }
+                        if(bookingInfo === null) {
+                            document.getElementById('bookingInfo').textContent = 'Booking not found.';
+                        } else {
+                            document.getElementById('bookingInfo').textContent = `Booking Info: ${JSON.stringify(bookingInfo)}`;
+
+                            let checkoutButton = document.createElement('button');
+                            checkoutButton.textContent = 'Confirm Checkout';
+                            checkoutButton.onclick = function() {
+                                checkout(bookingInfo);
+                            };
+
+                            document.getElementById('bookingInfo').appendChild(checkoutButton);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                } else {
+                    alert('Please fill out all fields before confirming booking.');
+                }
+            }
+
+            function checkout(bookingInfo) {
+            fetch('http://localhost:8083/checkout', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: parseInt(bookingInfo.ID),
+                    name: bookingInfo.name,
+                    email: bookingInfo.email
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('checkoutConfirmation').textContent = 
+                    `Checkout Confirmation: ID - ${data.id}, Name - ${data.name}, Email - ${data.email}`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        </script>
+    </head>
+    <body>
+        <h1>Checkout</h1>
+        <div>
+            <label for="id">Booking ID:</label>
+            <input type="text" id="id"><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name"><br>
+            <label for="email">Email:</label>
+            <input type="text" id="email"><br>
+            <button onclick="confirmBooking()">Confirm Booking</button>
+        </div>
+        <div id="bookingInfo"></div>
+        <div id="checkoutConfirmation"></div>
+    </body>
+</html>
