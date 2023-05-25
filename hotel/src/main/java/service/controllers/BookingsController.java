@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import service.service.BookingsService;
+import service.service.HotelService;
+import service.core.BookingInfo;
+import service.core.Checkout;
 import service.model.Bookings;
 
 @RestController  
@@ -21,6 +24,9 @@ public class BookingsController {
 
     @Autowired  
     BookingsService bookingsService;
+
+    @Autowired
+    HotelService hotelService;
 
     @GetMapping("/bookings")  
     private List<Bookings> getAllBookings() {  
@@ -52,5 +58,10 @@ public class BookingsController {
     private int saveBooking(@RequestBody Bookings booking) {  
         bookingsService.saveOrUpdate(booking);  
         return booking.getId();
+    }
+
+    @PostMapping("/checkout")
+    private BookingInfo checkout(@RequestBody Checkout booking) {
+        return hotelService.checkout(booking);
     }
 }

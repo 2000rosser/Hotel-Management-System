@@ -4,6 +4,7 @@ import service.core.AbstractQuotationService;
 import service.core.BookingInfo;
 import service.core.RoomInfo;
 import service.core.Quotation;
+import service.core.Checkout;
 import service.model.Bookings;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,45 @@ public class HotelService extends AbstractQuotationService {
 		double defaultPrice = 100.0;
 		return new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo);
 	}
+
+	public BookingInfo checkout(Checkout checkInfo){
+		List<Bookings> bookings = bookingsService.getAllBookings();
+
+		if (bookings == null) {
+			return null;
+		}
+
+		for (Bookings booking : bookings) {
+			System.out.println("Booking name: " + booking.getName() + " BookingInfo name: " + checkInfo.name);
+			System.out.println("Booking email: " + booking.getEmail() + " BookingInfo email: " + checkInfo.email);
+			System.out.println("Booking ID: " + booking.getId() + " BookingInfo ID: " + checkInfo.id);
+			if (booking.getName().equals(checkInfo.name) && booking.getEmail().equals(checkInfo.email) && booking.getId()==checkInfo.id) {
+				
+				
+				BookingInfo info = new BookingInfo();
+				info.ID = booking.getId();
+				info.name = booking.getName();
+				info.email = booking.getEmail();
+				info.phone = booking.getPhone();
+				info.booking_ref = booking.getBookingRef();
+				info.type = booking.getType();
+				info.beds = booking.getBeds();
+				info.bedSize = booking.getBedSize();
+				info.balcony = booking.isBalcony();
+				info.view = booking.getView();
+				info.accessibility = booking.isAccessible();
+				info.checkIn = booking.getCheckInDate();
+				info.checkOut = booking.getCheckOutDate();
+				info.price = booking.getPrice();
+
+				// bookingsService.delete(booking.getId());
+				
+				return info;
+			}
+		}
+		return null;
+		
+	}
 	
 
 
@@ -86,6 +126,11 @@ public class HotelService extends AbstractQuotationService {
 
 		booking.setBookingRef(info.booking_ref);
 		booking.setId(info.ID);
+		// booking.setName(info.name);
+		// booking.setEmail(info.email);
+		booking.setName("test");
+		booking.setEmail("test");
+		booking.setPhone(info.phone);
 		booking.setType(info.type);
 		booking.setBeds(info.beds);
 		booking.setBedSize(info.bedSize);

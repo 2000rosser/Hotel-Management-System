@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.model.Bookings;
 import service.repository.BookingsRepository;
+import javax.transaction.Transactional;
 
 
 @Service
@@ -36,6 +37,7 @@ public class BookingsService {
         bookingsRepository.save(booking);
     }
 
+    @Transactional
     public void delete(int id) {  
         bookingsRepository.deleteById(id);
     }
