@@ -87,12 +87,13 @@
                 .then(function(response) {
                     if (response.ok) {
                         console.log("Response Ok!");
-                        response.text().then(function(responseText) {
-                            console.log("Response text:", responseText);
-                            createQuotePage(responseText);
+                        response.json().then(function(responseJson) {
+                            //console.log("Response text:", responseJson);
+                            createQuotePage(responseJson);
                         });
                     } else {
                         console.error('Application Creation Failed! HTTP status:', response.status);
+                        console.log('Response: ', response.text());
                         alert('Application Creation Failed!');
                     }
                 })
@@ -103,9 +104,9 @@
             });
 
             function createQuotePage(response) {
-                var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(response);
-                console.log("Opening URL:", url);
-                window.open(url,'_blank');
+                var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(JSON.stringify(response));
+                //console.log("Opening URL:", url);
+                window.location.href = url;
             }
         </script>
     </body>

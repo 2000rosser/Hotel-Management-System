@@ -10,6 +10,7 @@ import service.model.Bookings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -77,6 +78,56 @@ public class HotelService extends AbstractQuotationService {
 		// Assume a default price for the non-existent room.
 		double defaultPrice = 100.0;
 		return new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo);
+	}
+
+	public ArrayList<Quotation> generateQuotations(RoomInfo roomInfo) {
+		if (roomInfo == null) {
+			throw new IllegalArgumentException("RoomInfo cannot be null.");
+		}
+	
+		List<Room> rooms = roomService.getAllRooms();
+		ArrayList<Quotation> quotations = new ArrayList<Quotation>();
+	
+		if (rooms == null) {
+			throw new IllegalArgumentException("Rooms cannot be null.");
+		}
+	
+		for (Room room : rooms) {
+			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
+				long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
+				int days = Math.toIntExact(daysBetween);
+	
+				// Add additional costs based on room attributes
+				double extraCosts = 0;
+				if (roomInfo.balcony) {
+					extraCosts += 20;
+				}
+				if (roomInfo.view.equals("Sea View")) {
+					extraCosts += 30;
+				} 
+				else if (roomInfo.view.equals("Garden View")) {
+					extraCosts += 15;
+				}
+				else if (roomInfo.view.equals("Any View")) {
+					extraCosts += 0;
+				}
+	
+				totalPrice = room.getPrice() * days + extraCosts;
+				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
+
+				quotations.add(quote);
+			}
+		}
+	
+		// If no matching room is found, return a Quotation for the requested RoomInfo.
+		if (quotations.isEmpty()) {
+			System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
+			// Assume a default price for the non-existent room.
+			double defaultPrice = 100.0;
+			quotations.add(new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo));
+		}
+		System.out.println(quotations.size());
+		return quotations;
 	}
 
 	public BookingInfo checkout(Checkout checkInfo){
