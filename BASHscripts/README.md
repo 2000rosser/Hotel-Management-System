@@ -2,8 +2,17 @@ Quality of life scripts
 
 Open a git Bash terminal in this directory
 
-For each of the scripts run:
+Enable each of the scripts:
 >> chmod u+x "file.sh"
+
+Run with:
+>> ./file.sh
 
 astrumBuild.sh
     mvn steps
+
+astrumDock.sh
+    docker steps
+
+astrumBuildAndRun.sh
+    Combine both
