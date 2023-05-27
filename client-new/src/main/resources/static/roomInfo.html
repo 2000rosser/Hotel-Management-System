@@ -50,11 +50,11 @@
             <label for="accessibility">Accessibility Access</label>
             <input type="checkbox" id="accessibility" name="accessibility"><br><br>
 
-            <label for="startdate">Start Date</label>
-            <input type="date" id="startdate" name="startdate" required><br><br>
+            <label for="checkIn">Start Date</label>
+            <input type="date" id="checkIn" name="checkIn" required><br><br>
 
-            <label for="enddate">End Date</label>
-            <input type="date" id="enddate" name="enddate" required><br><br>
+            <label for="checkOut">End Date</label>
+            <input type="date" id="checkOut" name="checkOut" required><br><br>
 
             <label for="price">Price</label>
             <input type="number" id="price" name="price" min="0" max="1000" required>
@@ -72,9 +72,14 @@
                 var roomInfo = {};
 
                 formData.forEach(function(value, key) {
-                    var val = value;
-                    if (value === "on") { val = true; }
-                    roomInfo[key] = val;
+                    var newval = value;
+
+                    if (key === 'checkIn' || key === 'checkOut') {
+                        newval = dateToString(key);
+                    }
+
+                    if (value === "on") { newval = true; }
+                    roomInfo[key] = newval;
                 });
 
                 console.log("Form data to be sent:", JSON.stringify(roomInfo));
@@ -88,7 +93,7 @@
                     if (response.ok) {
                         console.log("Response Ok!");
                         response.json().then(function(responseJson) {
-                            //console.log("Response text:", responseJson);
+                            console.log("Response text:", responseJson);
                             createQuotePage(responseJson);
                         });
                     } else {
@@ -105,8 +110,15 @@
 
             function createQuotePage(response) {
                 var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(JSON.stringify(response));
-                //console.log("Opening URL:", url);
-                window.location.href = url;
+                console.log("Opening URL:", url);
+                //window.location.href = url;
+                window.open(url, '_blank');
+            }
+
+            function dateToString(key) {
+                var dateElement = document.getElementById(key);
+                console.log("Checkin Date " + dateElement.value);
+                return dateElement.value;
             }
         </script>
     </body>

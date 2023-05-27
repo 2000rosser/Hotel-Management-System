@@ -43,9 +43,6 @@ public class HotelController {
             list.add("http:" + getHost()
                     + "/quotations/" + quotation.reference);
         }
-        System.out.println("\n####################");
-        System.out.println("HotelController: Get Quotations");
-        System.out.println("####################\n");
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -56,10 +53,6 @@ public class HotelController {
         if (quotation == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-        System.out.println("\n####################");
-        System.out.println("HotelController: Get Quotation");
-        System.out.println("####################\n");
 
         return ResponseEntity.status(HttpStatus.OK).body(quotation);
     }
@@ -95,7 +88,7 @@ public class HotelController {
                 return ResponseEntity.noContent().build();
             }
 
-            System.out.println("\n##### ##### ##### #####");
+            
             for (Quotation quotation : quotations) {
                 this.quotations.put(quotation.reference, quotation);
             }

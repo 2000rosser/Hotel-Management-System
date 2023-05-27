@@ -66,6 +66,13 @@ public class HMSController {
         System.out.println("Creating application: " + application.id);
         applications.put(application.id, application);
 
+        System.out.println("\n##### ##### #####");
+        System.out.println("roomInfo Check");
+        System.out.println("type: " + roomInfo.type);
+        System.out.println("checkIn: " + roomInfo.checkIn);
+        System.out.println("checkIn: " + roomInfo.checkOut);
+        System.out.println("##### ##### #####\n");
+
         for (String quotationUrl : quotationUrls) {
             System.out.println("Requesting quotation from " + quotationUrl);
             ResponseEntity<ArrayList<Quotation>> response = restTemplate.exchange(

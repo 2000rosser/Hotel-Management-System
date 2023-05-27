@@ -9,6 +9,7 @@ import service.model.Bookings;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,48 +38,48 @@ public class HotelService extends AbstractQuotationService {
 
 	private RoomService roomService;
 
-	public Quotation generateQuotation(RoomInfo roomInfo) {
-		if (roomInfo == null) {
-			throw new IllegalArgumentException("RoomInfo cannot be null.");
-		}
+	// public Quotation generateQuotation(RoomInfo roomInfo) {
+	// 	if (roomInfo == null) {
+	// 		throw new IllegalArgumentException("RoomInfo cannot be null.");
+	// 	}
 	
-		List<Room> rooms = roomService.getAllRooms();
+	// 	List<Room> rooms = roomService.getAllRooms();
 	
-		if (rooms == null) {
-			throw new IllegalArgumentException("Rooms cannot be null.");
-		}
+	// 	if (rooms == null) {
+	// 		throw new IllegalArgumentException("Rooms cannot be null.");
+	// 	}
 	
-		for (Room room : rooms) {
-			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
-				long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
-				int days = Math.toIntExact(daysBetween);
+	// 	for (Room room : rooms) {
+	// 		if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
+	// 			long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
+	// 			int days = Math.toIntExact(daysBetween);
 	
-				// Add additional costs based on room attributes
-				double extraCosts = 0;
-				if (roomInfo.balcony) {
-					extraCosts += 20;
-				}
-				if (roomInfo.view.equals("Sea View")) {
-					extraCosts += 30;
-				} 
-				else if (roomInfo.view.equals("Garden View")) {
-					extraCosts += 15;
-				}
-				else if (roomInfo.view.equals("Any View")) {
-					extraCosts += 0;
-				}
+	// 			// Add additional costs based on room attributes
+	// 			double extraCosts = 0;
+	// 			if (roomInfo.balcony) {
+	// 				extraCosts += 20;
+	// 			}
+	// 			if (roomInfo.view.equals("Sea View")) {
+	// 				extraCosts += 30;
+	// 			} 
+	// 			else if (roomInfo.view.equals("Garden View")) {
+	// 				extraCosts += 15;
+	// 			}
+	// 			else if (roomInfo.view.equals("Any View")) {
+	// 				extraCosts += 0;
+	// 			}
 	
-				totalPrice = room.getPrice() * days + extraCosts;
-				return new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
-			}
-		}
+	// 			totalPrice = room.getPrice() * days + extraCosts;
+	// 			return new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
+	// 		}
+	// 	}
 	
-		// If no matching room is found, return a Quotation for the requested RoomInfo.
-		System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
-		// Assume a default price for the non-existent room.
-		double defaultPrice = 100.0;
-		return new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo);
-	}
+	// 	// If no matching room is found, return a Quotation for the requested RoomInfo.
+	// 	System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
+	// 	// Assume a default price for the non-existent room.
+	// 	double defaultPrice = 100.0;
+	// 	return new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo);
+	// }
 
 	public ArrayList<Quotation> generateQuotations(RoomInfo roomInfo) {
 		if (roomInfo == null) {
@@ -94,8 +95,15 @@ public class HotelService extends AbstractQuotationService {
 	
 		for (Room room : rooms) {
 			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
-				long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
+				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
 				int days = Math.toIntExact(daysBetween);
+
+				System.out.println("\n***** ***** ***** *****");
+				System.out.println("Number of Days: " + days);
+				System.out.println("roomInfo.checkIn: " + roomInfo.checkIn);
+				System.out.println("roomInfo.checkOut: " + roomInfo.checkOut);
+				System.out.println("roomInfo.type: " + roomInfo.type);
+				System.out.println("***** ***** ***** *****\n");
 	
 				// Add additional costs based on room attributes
 				double extraCosts = 0;
@@ -108,11 +116,43 @@ public class HotelService extends AbstractQuotationService {
 				else if (roomInfo.view.equals("Garden View")) {
 					extraCosts += 15;
 				}
-				else if (roomInfo.view.equals("Any View")) {
+				else if (roomInfo.view.equals("City View")) {
 					extraCosts += 0;
 				}
+				
+				totalPrice = (room.getPrice() * days) + (extraCosts * days);
+				//totalPrice = room.getPrice() * days + extraCosts;
+				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
+
+				quotations.add(quote);
+			} else if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.accessibility == room.isAccessible())) {
+				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
+				int days = Math.toIntExact(daysBetween);
+
+				System.out.println("\n***** ***** ***** *****");
+				System.out.println("Number of Days: " + days);
+				System.out.println("roomInfo.checkIn: " + roomInfo.checkIn);
+				System.out.println("roomInfo.checkOut: " + roomInfo.checkOut);
+				System.out.println("roomInfo.type: " + roomInfo.type);
+				System.out.println("***** ***** ***** *****\n");
 	
-				totalPrice = room.getPrice() * days + extraCosts;
+				// Add additional costs based on room attributes
+				double extraCosts = 0;
+				if (roomInfo.balcony) {
+					extraCosts += 20;
+				}
+				if (roomInfo.view.equals("Sea View")) {
+					extraCosts += 30;
+				} 
+				else if (roomInfo.view.equals("Garden View")) {
+					extraCosts += 15;
+				}
+				else if (roomInfo.view.equals("City View")) {
+					extraCosts += 0;
+				}
+				
+				totalPrice = (room.getPrice() * days) + (extraCosts * days);
+				//totalPrice = room.getPrice() * days + extraCosts;
 				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
 
 				quotations.add(quote);
