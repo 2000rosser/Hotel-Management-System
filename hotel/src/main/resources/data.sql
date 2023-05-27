@@ -13,17 +13,17 @@ CREATE TABLE ROOMS(
     BOOKED BOOLEAN
 );
 
-INSERT INTO ROOMS VALUES(1, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 80, false);
-INSERT INTO ROOMS VALUES(2, 'Double', 1, 1.5, true, 'Garden View', false, '2023-06-10', '2023-06-15', 120, false);
-INSERT INTO ROOMS VALUES(3, 'Twin', 2, 1.0, false, 'Sea View', true, '2023-07-01', '2023-07-05', 100, false);
-INSERT INTO ROOMS VALUES(4, 'Suite', 2, 2.0, true, 'City View', false, '2023-07-20', '2023-07-25', 200, false);
-INSERT INTO ROOMS VALUES(5, 'Double', 1, 1.5, false, 'Garden View', false, '2023-08-01', '2023-08-10', 110, false);
-INSERT INTO ROOMS VALUES(6, 'Twin', 2, 1.0, true, 'Sea View', false, '2023-08-15', '2023-08-20', 90, false);
+INSERT INTO ROOMS VALUES(1, 'Single', 1, 1.0, false, 'Sea View', false, '2023-01-01', '2023-01-02', 80, false);
+INSERT INTO ROOMS VALUES(2, 'Double', 1, 1.5, true, 'Garden View', false, '2023-01-01', '2023-01-02', 120, false);
+INSERT INTO ROOMS VALUES(3, 'Twin', 2, 1.0, false, 'Sea View', true, '2023-01-01', '2023-01-02', 100, false);
+INSERT INTO ROOMS VALUES(4, 'Suite', 2, 2.0, true, 'City View', false, '2023-01-01', '2023-01-02', 200, false);
+INSERT INTO ROOMS VALUES(5, 'Double', 1, 1.5, false, 'Garden View', false, '2023-01-01', '2023-01-02', 110, false);
+INSERT INTO ROOMS VALUES(6, 'Twin', 2, 1.0, true, 'Sea View', false, '2023-01-01', '2023-01-02', 90, false);
 
-INSERT INTO ROOMS VALUES(7, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 80, false);
-INSERT INTO ROOMS VALUES(8, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 85, false);
-INSERT INTO ROOMS VALUES(9, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 90, false);
-INSERT INTO ROOMS VALUES(10, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 95, false);
+-- INSERT INTO ROOMS VALUES(7, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 80, false);
+-- INSERT INTO ROOMS VALUES(8, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 85, false);
+-- INSERT INTO ROOMS VALUES(9, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 90, false);
+-- INSERT INTO ROOMS VALUES(10, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 95, false);
 
 DROP TABLE IF EXISTS BOOKINGS;
 CREATE TABLE BOOKINGS(
@@ -45,5 +45,5 @@ CREATE TABLE BOOKINGS(
     BOOKED BOOLEAN
 );
 
-INSERT INTO BOOKINGS VALUES(1, 'test', 'test', '1234567890', 'Booking 1', 2, 'Double', 1, 1.5, true, 'Garden View', false, '2023-06-12', '2023-06-14', 120, true);
-
+INSERT INTO BOOKINGS VALUES(1, 'H1-123085708491237', 'test', '1234567890', 'Booking 1', 2, 'Double', 1, 1.5, true, 'Garden View', false, '2023-06-12', '2023-06-14', 120, true);
+INSERT INTO BOOKINGS VALUES(2, 'H1-327015010365012', 'John Smith', '1234567891', 'Booking 2', 2, 'Single', 1, 1.5, true, 'Sea View', false, '2023-05-30', '2023-06-03', 120, true);

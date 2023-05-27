@@ -38,55 +38,13 @@ public class HotelService extends AbstractQuotationService {
 
 	private RoomService roomService;
 
-	// public Quotation generateQuotation(RoomInfo roomInfo) {
-	// 	if (roomInfo == null) {
-	// 		throw new IllegalArgumentException("RoomInfo cannot be null.");
-	// 	}
-	
-	// 	List<Room> rooms = roomService.getAllRooms();
-	
-	// 	if (rooms == null) {
-	// 		throw new IllegalArgumentException("Rooms cannot be null.");
-	// 	}
-	
-	// 	for (Room room : rooms) {
-	// 		if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
-	// 			long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
-	// 			int days = Math.toIntExact(daysBetween);
-	
-	// 			// Add additional costs based on room attributes
-	// 			double extraCosts = 0;
-	// 			if (roomInfo.balcony) {
-	// 				extraCosts += 20;
-	// 			}
-	// 			if (roomInfo.view.equals("Sea View")) {
-	// 				extraCosts += 30;
-	// 			} 
-	// 			else if (roomInfo.view.equals("Garden View")) {
-	// 				extraCosts += 15;
-	// 			}
-	// 			else if (roomInfo.view.equals("Any View")) {
-	// 				extraCosts += 0;
-	// 			}
-	
-	// 			totalPrice = room.getPrice() * days + extraCosts;
-	// 			return new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
-	// 		}
-	// 	}
-	
-	// 	// If no matching room is found, return a Quotation for the requested RoomInfo.
-	// 	System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
-	// 	// Assume a default price for the non-existent room.
-	// 	double defaultPrice = 100.0;
-	// 	return new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo);
-	// }
-
 	public ArrayList<Quotation> generateQuotations(RoomInfo roomInfo) {
 		if (roomInfo == null) {
 			throw new IllegalArgumentException("RoomInfo cannot be null.");
 		}
 	
 		List<Room> rooms = roomService.getAllRooms();
+		List<Bookings> bookedRooms = bookingsService.getAllBookings();
 		ArrayList<Quotation> quotations = new ArrayList<Quotation>();
 	
 		if (rooms == null) {
@@ -97,14 +55,26 @@ public class HotelService extends AbstractQuotationService {
 			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
 				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
 				int days = Math.toIntExact(daysBetween);
+				boolean isOverlapping = false;
+				boolean isBooked = false;
+				
+				// Checking for overlapping dates between user proposed dates and existing bookings
+				for (Bookings booking : bookedRooms) {
+					LocalDate bookedCheckIn = booking.getCheckInDate();
+					LocalDate bookedCheckOut = booking.getCheckOutDate();
+					
+					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
+						System.out.println("******************************************OVERLAP******************************************");
+						isOverlapping = true;
 
-				System.out.println("\n***** ***** ***** *****");
-				System.out.println("Number of Days: " + days);
-				System.out.println("roomInfo.checkIn: " + roomInfo.checkIn);
-				System.out.println("roomInfo.checkOut: " + roomInfo.checkOut);
-				System.out.println("roomInfo.type: " + roomInfo.type);
-				System.out.println("***** ***** ***** *****\n");
-	
+						// Checking for current room booking status
+						if(booking.isBooked() == true)
+						{
+							isBooked = true;
+						}
+					}
+				}
+
 				// Add additional costs based on room attributes
 				double extraCosts = 0;
 				if (roomInfo.balcony) {
@@ -119,23 +89,42 @@ public class HotelService extends AbstractQuotationService {
 				else if (roomInfo.view.equals("City View")) {
 					extraCosts += 0;
 				}
+
+				// Setting the CheckIn and CheckOut Dates for the Quote usng Client specified dates
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkIn));
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkOut));
 				
 				totalPrice = (room.getPrice() * days) + (extraCosts * days);
-				//totalPrice = room.getPrice() * days + extraCosts;
 				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
 
-				quotations.add(quote);
+				if(isOverlapping == false && isBooked == false)
+				{
+					quotations.add(quote);
+				}
+
 			} else if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.accessibility == room.isAccessible())) {
 				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
 				int days = Math.toIntExact(daysBetween);
+				boolean isOverlapping = false;
+				boolean isBooked = false;
+				
+				// Checking for overlapping dates between user proposed dates and existing bookings
+				for (Bookings booking : bookedRooms) {
+					LocalDate bookedCheckIn = booking.getCheckInDate();
+					LocalDate bookedCheckOut = booking.getCheckOutDate();
+					
+					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
+						System.out.println("******************************************OVERLAP******************************************");
+						isOverlapping = true;
 
-				System.out.println("\n***** ***** ***** *****");
-				System.out.println("Number of Days: " + days);
-				System.out.println("roomInfo.checkIn: " + roomInfo.checkIn);
-				System.out.println("roomInfo.checkOut: " + roomInfo.checkOut);
-				System.out.println("roomInfo.type: " + roomInfo.type);
-				System.out.println("***** ***** ***** *****\n");
-	
+						// Checking for current room booking status
+						if(booking.isBooked() == true)
+						{
+							isBooked = true;
+						}
+					}
+				}
+
 				// Add additional costs based on room attributes
 				double extraCosts = 0;
 				if (roomInfo.balcony) {
@@ -150,12 +139,18 @@ public class HotelService extends AbstractQuotationService {
 				else if (roomInfo.view.equals("City View")) {
 					extraCosts += 0;
 				}
+
+				// Setting the CheckIn and CheckOut Dates for the Quote usng Client specified dates
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkIn));
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkOut));
 				
 				totalPrice = (room.getPrice() * days) + (extraCosts * days);
-				//totalPrice = room.getPrice() * days + extraCosts;
 				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
 
-				quotations.add(quote);
+				if(isOverlapping == false && isBooked == false)
+				{
+					quotations.add(quote);
+				}
 			}
 		}
 	
@@ -163,14 +158,14 @@ public class HotelService extends AbstractQuotationService {
 		if (quotations.isEmpty()) {
 			System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
 			// Assume a default price for the non-existent room.
-			double defaultPrice = 100.0;
+			double defaultPrice = 0.0;
 			quotations.add(new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo));
 		}
-		System.out.println(quotations.size());
-		return quotations;
-	}
+			System.out.println(quotations.size());
+			return quotations;
+		}
 
-	public BookingInfo checkout(Checkout checkInfo){
+		public BookingInfo checkout(Checkout checkInfo){
 		List<Bookings> bookings = bookingsService.getAllBookings();
 
 		if (bookings == null) {
@@ -209,7 +204,6 @@ public class HotelService extends AbstractQuotationService {
 		
 	}
 	
-
 
 	public BookingInfo createBooking(BookingInfo info){
 
