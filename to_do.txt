@@ -1,0 +1,17 @@
+* Booking Confirmation Page
+* Admin 
+	- Check-In
+	- Check-Out
+	- Cleaning Service and Deposit
+* Admin Login
+* Payments Page and Booking Confirmation
+* Additional Distribted System Technology
+* Checking that there are overlapping dates for bookings (before being shown to the user the quotes should check against the booking table if a booking with the client's desired dates already exists)
+* Clean Up Code
+* Clean Up UI
+	- CSS
+	- Images
+	- Text and Descriptions
+* README.md
+* Report
+* Video Recording and Editing
