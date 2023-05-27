@@ -53,6 +53,17 @@ public class HotelService extends AbstractQuotationService {
 	
 		for (Room room : rooms) {
 			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
+				
+				// Check if the checkIn date is in the past
+				if (LocalDate.parse(roomInfo.checkIn).isBefore(LocalDate.now()) || LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.now())) {
+					continue; // Skip to the next room
+				}
+				
+				// Check if the checkOut date is before the checkIn date
+				if (LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.parse(roomInfo.checkIn))) {
+					continue; // Skip to the next room
+				}
+				
 				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
 				int days = Math.toIntExact(daysBetween);
 				boolean isOverlapping = false;
@@ -103,6 +114,17 @@ public class HotelService extends AbstractQuotationService {
 				}
 
 			} else if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.accessibility == room.isAccessible())) {
+
+				// Check if the checkIn date is in the past
+				if (LocalDate.parse(roomInfo.checkIn).isBefore(LocalDate.now()) || LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.now())) {
+					continue; // Skip to the next room
+				}
+				
+				// Check if the checkOut date is before the checkIn date
+				if (LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.parse(roomInfo.checkIn))) {
+					continue; // Skip to the next room
+				}
+
 				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
 				int days = Math.toIntExact(daysBetween);
 				boolean isOverlapping = false;
