@@ -17,6 +17,7 @@ public class PaymentsController {
             return "<html>\n"
                     + "    <body>\n"
                     + "        <h1>Payment Page</h1>\n"
+                    + "         <p>" + responseArg + "</p>\n"
                     + "        <form id=\"paymentForm\">\n"
                     + "            <input type=\"hidden\" name=\"responseArg\" id=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n"
                     + "            <input type=\"button\" value=\"Submit Payment\" onclick=\"submitPayment()\"/>\n"

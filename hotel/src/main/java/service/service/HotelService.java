@@ -106,7 +106,7 @@ public class HotelService extends AbstractQuotationService {
 				room.setCheckInDate(LocalDate.parse(roomInfo.checkOut));
 				
 				totalPrice = (room.getPrice() * days) + (extraCosts * days);
-				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
+				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo, room.getId());
 
 				if(isOverlapping == false && isBooked == false)
 				{
@@ -167,7 +167,7 @@ public class HotelService extends AbstractQuotationService {
 				room.setCheckInDate(LocalDate.parse(roomInfo.checkOut));
 				
 				totalPrice = (room.getPrice() * days) + (extraCosts * days);
-				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
+				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo, room.getId());
 
 				if(isOverlapping == false && isBooked == false)
 				{
@@ -179,9 +179,10 @@ public class HotelService extends AbstractQuotationService {
 		// If no matching room is found, return a Quotation for the requested RoomInfo.
 		if (quotations.isEmpty()) {
 			System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
-			// Assume a default price for the non-existent room.
+			// Assume a default price and room ID for the non-existent room.
+			int defaultRoomID = 0;
 			double defaultPrice = 0.0;
-			quotations.add(new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo));
+			quotations.add(new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo, defaultRoomID));
 		}
 			System.out.println(quotations.size());
 			return quotations;
