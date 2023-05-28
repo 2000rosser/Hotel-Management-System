@@ -57,28 +57,6 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).body(quotation);
     }
 
-    //@PostMapping(value = "/quotations", consumes = "application/json")
-    //public ResponseEntity<Quotation> createQuotation(
-    //        @RequestBody RoomInfo info) {
-    //    System.out.println("Service object: " + service);
-    //    System.out.println("RoomInfo object: " + info);
-    //    Quotation quotation = service.generateQuotation(info);
-    //    System.out.println("Quotation object: " + quotation);
-    //    quotations.put(quotation.reference, quotation);
-    //    String url = "http://" + getHost() + "/quotations/"
-    //            + quotation.reference;
-    //    
-    //    System.out.println("\n####################");
-    //    System.out.println("HotelController: generate Quotation");
-    //    System.out.println("####################\n");
-//
-    //    return ResponseEntity
-    //            .status(HttpStatus.CREATED)
-    //            .header("Location", url)
-    //            .header("Content-Location", url)
-    //            .body(quotation);
-    //}
-
     @PostMapping(value = "/quotations", consumes = "application/json")
     public ResponseEntity<ArrayList<Quotation>> createQuotations (@RequestBody RoomInfo info) {
             ArrayList<Quotation> quotations = service.generateQuotations(info);

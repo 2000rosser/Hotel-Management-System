@@ -37,6 +37,8 @@ public class HotelService extends AbstractQuotationService {
 	private BookingsService bookingsService;
 
 	private RoomService roomService;
+	List<Bookings> bookedRooms;
+
 
 	public ArrayList<Quotation> generateQuotations(RoomInfo roomInfo) {
 		if (roomInfo == null) {
@@ -44,7 +46,7 @@ public class HotelService extends AbstractQuotationService {
 		}
 	
 		List<Room> rooms = roomService.getAllRooms();
-		List<Bookings> bookedRooms = bookingsService.getAllBookings();
+		bookedRooms = bookingsService.getAllBookings();
 		ArrayList<Quotation> quotations = new ArrayList<Quotation>();
 	
 		if (rooms == null) {
@@ -229,15 +231,15 @@ public class HotelService extends AbstractQuotationService {
 	
 
 	public BookingInfo createBooking(BookingInfo info){
-
+		System.out.println("Table Entries: " + bookingsService.getTableCount());
 		Bookings booking = new Bookings();
 
 		booking.setBookingRef(info.booking_ref);
 		booking.setId(info.ID);
-		// booking.setName(info.name);
-		// booking.setEmail(info.email);
-		booking.setName("test");
-		booking.setEmail("test");
+		booking.setName(info.name);
+		booking.setEmail(info.email);
+		//booking.setName("test");
+		//booking.setEmail("test");
 		booking.setPhone(info.phone);
 		booking.setType(info.type);
 		booking.setBeds(info.beds);
@@ -251,7 +253,8 @@ public class HotelService extends AbstractQuotationService {
 		booking.setBooked(true);
 
 
-		bookingsService.saveOrUpdate(booking);		
+		bookingsService.saveOrUpdate(booking);
+		System.out.println("Table Entries: " + bookingsService.getTableCount());
 
 		return info;
 	}

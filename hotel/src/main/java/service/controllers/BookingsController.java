@@ -1,18 +1,27 @@
 package service.controllers;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import service.service.BookingsService;
 import service.service.HotelService;
 import service.core.BookingInfo;
 import service.core.Checkout;
+import service.core.Quotation;
 import service.model.Bookings;
+import service.model.Room;
 
 @RestController  
 public class BookingsController {
@@ -56,9 +65,16 @@ public class BookingsController {
 
     @PostMapping("/bookings")  
     private int saveBooking(@RequestBody Bookings booking) {  
+        System.out.println("Entered controller - saveBooking");
         bookingsService.saveOrUpdate(booking);  
         return booking.getId();
     }
+
+    //@PostMapping(value = "/bookings", consumes = "application/json")
+    //private void makeBooking(@RequestBody Quotation info) {  
+    //    bookingsService.saveOrUpdate(booking);  
+    //    return booking.getId();
+    //}
 
     @PostMapping("/checkout")
     private BookingInfo checkout(@RequestBody Checkout booking) {
