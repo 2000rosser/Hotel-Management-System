@@ -29,8 +29,9 @@ public class PaymentsController {
         String checkIn = roomInfoElement(responseArg, "checkIn");
         String checkOut = roomInfoElement(responseArg, "checkOut");
         double price = Double.parseDouble(rootElement( responseArg,  "totalPrice"));
+        int roomId = Integer.parseInt(rootElement(responseArg, "roomId"));
         
-        String bookingObject = jsonConstruct(type, beds, bedSize, balcony, view, accessibility, checkIn, checkOut, price);
+        String bookingObject = jsonConstruct(type, beds, bedSize, balcony, view, accessibility, checkIn, checkOut, price, roomId);
 
         try {
             // Return an HTML form with the JSON data embedded in it
@@ -119,12 +120,12 @@ public class PaymentsController {
         return "";
     }
 
-    private String jsonConstruct(String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, double price) {
+    private String jsonConstruct(String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, double price, int roomId) {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.createObjectNode();
 
         //((ObjectNode) jsonNode).put("booking_ref", 5);
-        ((ObjectNode) jsonNode).put("ID", 5);
+        ((ObjectNode) jsonNode).put("ID", roomId);
         ((ObjectNode) jsonNode).put("name", "bob");
         ((ObjectNode) jsonNode).put("email", "bob@gmail");
         ((ObjectNode) jsonNode).put("phone", "123");
