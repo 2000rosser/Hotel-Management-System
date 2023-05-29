@@ -9,8 +9,6 @@ import java.time.LocalDate;
 @Table(name = "BOOKINGS")
 public class Bookings {
 
-
-    @Id
     @Column
     private int id;
 
@@ -23,11 +21,9 @@ public class Bookings {
     @Column
     private String phone;
 
+    @Id
     @Column(name = "booking_ref")
     private int bookingRef;
-
-    @Column
-    private String booking_name;
 
     @Column
     private String type;
@@ -94,14 +90,6 @@ public class Bookings {
 
     public int getBookingRef() {
         return bookingRef;
-    }
-
-    public void setBooking_name(String booking_name) {
-        this.booking_name = booking_name;
-    }
-
-    public String getBooking_name() {
-        return booking_name;
     }
 
     public void setId(int id) {

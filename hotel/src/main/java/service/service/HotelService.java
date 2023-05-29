@@ -20,9 +20,9 @@ import service.model.Room;
 
 @Service
 public class HotelService extends AbstractQuotationService {
-	// All references are to be prefixed with an AF (e.g. AF001000)
-	public static final String PREFIX = "AF";
-	public static final String COMPANY = "Auld Fellas Ltd.";
+	// All references are to be prefixed with an AF (e.g. H1F001000)
+	public static final String PREFIX = "H1";
+	public static final String COMPANY = "Hotel One Ltd.";
 	public double totalPrice = 0;
 
 	
@@ -78,11 +78,12 @@ public class HotelService extends AbstractQuotationService {
 					
 					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
 						System.out.println("******************************************OVERLAP******************************************");
-						isOverlapping = true;
+
 
 						// Checking for current room booking status
-						if(booking.isBooked() == true)
+						if(booking.isBooked() == true && (room.getId() == booking.getId()))
 						{
+							isOverlapping = true;
 							isBooked = true;
 						}
 					}
@@ -139,11 +140,12 @@ public class HotelService extends AbstractQuotationService {
 					
 					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
 						System.out.println("******************************************OVERLAP******************************************");
-						isOverlapping = true;
+	
 
 						// Checking for current room booking status
-						if(booking.isBooked() == true)
+						if(booking.isBooked() == true && (room.getId() == booking.getId()))
 						{
+							isOverlapping = true;
 							isBooked = true;
 						}
 					}
@@ -234,12 +236,12 @@ public class HotelService extends AbstractQuotationService {
 		System.out.println("Table Entries: " + bookingsService.getTableCount());
 		Bookings booking = new Bookings();
 
-		booking.setBookingRef(info.booking_ref);
+		int currentBookingRefNum = generateBookingRefNum(info);
+	
+		booking.setBookingRef(currentBookingRefNum);
 		booking.setId(info.ID);
 		booking.setName(info.name);
 		booking.setEmail(info.email);
-		//booking.setName("test");
-		//booking.setEmail("test");
 		booking.setPhone(info.phone);
 		booking.setType(info.type);
 		booking.setBeds(info.beds);
@@ -251,12 +253,18 @@ public class HotelService extends AbstractQuotationService {
 		booking.setCheckOutDate(info.checkOut);
 		booking.setPrice(info.price);
 		booking.setBooked(true);
-
-
+	
 		bookingsService.saveOrUpdate(booking);
 		System.out.println("Table Entries: " + bookingsService.getTableCount());
+	
 
 		return info;
+	}
+	
+	public int generateBookingRefNum(BookingInfo info) {
+		info.booking_ref = 1000000000;
+		int newBookingRefNum = info.booking_ref + 1 * bookedRooms.size();
+		return newBookingRefNum;
 	}
 	
 }

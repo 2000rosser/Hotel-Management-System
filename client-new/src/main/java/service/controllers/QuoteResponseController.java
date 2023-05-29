@@ -47,7 +47,7 @@ public class QuoteResponseController {
                     "       <form action=\"/payments\" method=\"get\">\n" +
                     //"          <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n" +
                     "          <input type=\"hidden\" name=\"responseArg\" value=\'" + quotationNode + "\'/>\n" +
-                    "          <input type=\"submit\" value=\"Proceed to Payment\"/>\n" +
+                    "          <input type=\"submit\" value=\"Book This Room\"/>\n" +
                     "       </form>\n" +
                     "       <br></br>"
                 );
