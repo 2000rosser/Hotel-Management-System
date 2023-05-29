@@ -1,11 +1,63 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>
-            Select Room Preferences
-        </title>
+        <title>Select Room Preferences</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-image: url(hotel.jpg);
+                background-position: right;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+    
+            .navbar {
+                background-color: #E8F2F7;
+                padding: 10px;
+                color: #333;
+            }
+    
+            .navbar-title {
+                font-size: 20px;
+                font-weight: bold;
+                text-align: left;
+            }
+    
+            form {
+                max-width: 400px;
+                margin: 2.5% 0 0 2.5%;
+                background-color: white;
+                padding: 20px;
+            }
+    
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+    
+            select,
+            input[type="checkbox"],
+            input[type="date"],
+            input[type="number"],
+            input[type="submit"] {
+                margin-bottom: 10px;
+            }
+    
+            input[type="submit"] {
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+            }
+    
+            input[type="submit"]:hover {
+                background-color: #45a049;
+            }
+        </style>
     </head>
     <body>
         <form id="roomInfo">

@@ -20,6 +20,7 @@ public class QuoteResponseController {
         htmlPage.append("<html>");
         htmlPage.append("   <head>");
         htmlPage.append("       <title>Rooms Found</title>");
+        htmlPage.append(getStylinghtml());
         htmlPage.append("   </head>");
         htmlPage.append("   <body>");
 
@@ -49,18 +50,16 @@ public class QuoteResponseController {
                     reference[quoteCounter] = quotationNode.get("reference").asText();
                     price[quoteCounter] = quotationNode.get("totalPrice").asDouble();
 
-                    htmlPage.append("       <p>Company: " + company[quoteCounter] + "</p>");
-                    htmlPage.append("       <p>Reference: " + reference[quoteCounter] + "</p>");
-                    htmlPage.append("       <p>Price: " + price[quoteCounter] + "</p>");
-
                     htmlPage.append(
-                        //"        <p>" + responseArg + "</p>\n" +
-                        "       <form action=\"/payments\" method=\"get\">\n" +
-                        //"          <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n" +
-                        "          <input type=\"hidden\" name=\"responseArg\" value=\'" + quotationNode + "\'/>\n" +
-                        "          <input type=\"submit\" value=\"Book This Room\"/>\n" +
-                        "       </form>\n" +
-                        "       <br></br>"
+                        "       <form action=\"/payments\" method=\"get\">\n"
+                        + "           <h3>Booking</h3>"
+                        + "           <p>Company: " + company[quoteCounter] + "</p>"
+                        + "           <p>Reference: " + reference[quoteCounter] + "</p>"
+                        + "           <p>Price: " + price[quoteCounter] + "</p>"
+                        + "          <input type=\"hidden\" name=\"responseArg\" value=\'" + quotationNode + "\'/>\n"
+                        + "          <input type=\"submit\" value=\"Book This Room\"/>\n"
+                        + "       </form>\n"
+                        + "       <br></br>"
                     );
 
                     quoteCounter++;
@@ -86,5 +85,68 @@ public class QuoteResponseController {
         );
 
         return htmlPage.toString();
+    }
+
+    private StringBuilder getStylinghtml() {
+        StringBuilder htmlPage = new StringBuilder();
+
+        htmlPage.append(
+            "            <style>"
+            + "            body {"
+            + "                font-family: Arial, sans-serif;"
+            + "                background-image: url(hotel.jpg);"
+            + "                background-position: right;"
+            + "                background-repeat: no-repeat;"
+            + "                background-size: cover;"
+            + "            }"
+
+            + "            .navbar {"
+            + "                background-color: #E8F2F7;"
+            + "                padding: 10px;"
+            + "                color: #333;"
+            + "            }"
+
+            + "            .navbar-title {"
+            + "                font-size: 20px;"
+            + "                font-weight: bold;"
+            + "                text-align: left;"
+            + "            }"
+
+            + "            form {"
+            + "                max-width: 400px;"
+            + "                margin: 2.5% 0 0 2.5%;"
+            + "                background-color: white;"
+            + "                padding: 20px;"
+            + "            }"
+
+            + "            label {"
+            + "                display: block;"
+            + "                margin-bottom: 5px;"
+            + "                font-weight: bold;"
+            + "            }"
+
+            + "            select,"
+            + "            input[type=\"checkbox\"],"
+            + "            input[type=\"date\"],"
+            + "            input[type=\"number\"],"
+            + "            input[type=\"submit\"] {"
+            + "                margin-bottom: 10px;"
+            + "            }"
+
+            + "            input[type=\"submit\"] {"
+            + "                padding: 10px 20px;"
+            + "                background-color: #4CAF50;"
+            + "                color: #fff;"
+            + "                border: none;"
+            + "                cursor: pointer;"
+            + "            }"
+
+            + "            input[type=\"submit\"]:hover {"
+            + "                background-color: #45a049;"
+            + "            }"
+            + "        </style>"
+        );
+
+        return htmlPage;
     }
 }

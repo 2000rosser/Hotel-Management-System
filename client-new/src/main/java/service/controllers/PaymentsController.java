@@ -3,6 +3,8 @@ package service.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.w3c.dom.html.HTMLParagraphElement;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +17,9 @@ public class PaymentsController {
     @GetMapping("/payments")
     @ResponseBody
     public String handlePayments(@RequestParam("responseArg") String responseArg) {
-
+        // Process the response argument and generate the appropriate HTML content
+        //{"company":"Auld Fellas Ltd.","reference":"AF001000","totalPrice":110,"roomInfo":{"type":"Single","beds":1,"bedSize":1,"balcony":false,"view":"Sea View","accessibility":false,"checkIn":"2023-05-28","checkOut":"2023-05-29","price":2},"roomId":1}
+        
         String type = roomInfoElement(responseArg, "type");
         int beds = Integer.parseInt(roomInfoElement(responseArg, "beds"));
         double bedSize = Double.parseDouble(roomInfoElement(responseArg, "bedSize"));
@@ -32,6 +36,11 @@ public class PaymentsController {
         try {
             // Return an HTML form with the JSON data embedded in it
             return "<!DOCTYPE html><html>\n"
+                    + "    <head>"
+                    + "     <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css\">"
+                    + "     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js\"></script>"
+                    +       getStylinghtml()
+                    + "     </head>"
                     + "    <body>\n"
                     + "        <form id=\"paymentForm\">\n"
                     + "             <h1>Payment Page</h1>\n"
@@ -48,10 +57,10 @@ public class PaymentsController {
                     + "            <input type=\"hidden\" name=\"responseArg\" id=\"responseArg\" value=\'" + bookingObject + "\'/>\n"
                     + "            <input type=\"button\" value=\"Submit Payment\" onclick=\"submitPayment()\"/>\n"
                     + "        </form><br><br>\n"
-                    + "        <div id=\"showConfirmation\"></div><br>\n"
+                    + "        <div id=\"showConfirmation\" style=\"display: none;\"></div><br>\n"
 
                     + "        <form action=\"http://localhost:8084/roomInfo.html\">\n"
-                    + "             <input type=\"submit\" value=\"Back to Room Selection\">\n"
+                    + "             <input type=\"submit\" value=\"Back to Room Select\">\n"
                     + "         </form><br>"
 
                     + "        <script>\n"
@@ -89,6 +98,9 @@ public class PaymentsController {
                     + "                 var form = document.getElementById(\"paymentForm\");\n"
                     + "                 form.style.display = \"none\";\n"
 
+                    + "                 var div = document.getElementById(\"showConfirmation\");\n"
+                    + "                 div.style.display = \"block\";\n"
+
                     + "                 var responseElement = document.getElementById(\"showConfirmation\");\n"
                     + "                 responseElement.innerHTML = '<h2>Payment Successful!</h2><br>' +"
                     + "                     '<p>Congratulations ' + name + ' on your booking!<br>' + "
@@ -125,7 +137,8 @@ public class PaymentsController {
 
         } catch (Exception e) {
             System.out.println("\n");
-            System.out.println("Error processing quote.");
+            System.out.println("Error processing quote. Raw response:\n" + arg);
+            //e.printStackTrace();
         }
 
         return "";
@@ -140,7 +153,8 @@ public class PaymentsController {
 
         } catch (Exception e) {
             System.out.println("\n");
-            System.out.println("Error processing quote.");
+            System.out.println("Error processing quote. Raw response:\n" + arg);
+            //e.printStackTrace();
         }
         return "";
     }
@@ -149,6 +163,7 @@ public class PaymentsController {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.createObjectNode();
 
+        //((ObjectNode) jsonNode).put("booking_ref", 5);
         ((ObjectNode) jsonNode).put("ID", roomId);
         ((ObjectNode) jsonNode).put("name", "bob");
         ((ObjectNode) jsonNode).put("email", "bob@gmail");
@@ -167,9 +182,82 @@ public class PaymentsController {
         try {
             jsonString = objectMapper.writeValueAsString(jsonNode);
         } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
+        System.out.println("bookingObject: " + jsonNode);
+        System.out.println("jsonString: " + jsonString);
         return jsonString;
+    }
+
+    private String getStylinghtml() {
+        StringBuilder htmlPage = new StringBuilder();
+        
+        htmlPage.append(
+            "            <style>"
+            + "            body {"
+            + "                font-family: Arial, sans-serif;"
+            + "                background-image: url(hotel.jpg);"
+            + "                background-position: right;"
+            + "                background-repeat: no-repeat;"
+            + "                background-size: cover;"
+            + "            }"
+
+            + "            .navbar {"
+            + "                background-color: #E8F2F7;"
+            + "                padding: 10px;"
+            + "                color: #333;"
+            + "            }"
+
+            + "            .navbar-title {"
+            + "                font-size: 20px;"
+            + "                font-weight: bold;"
+            + "                text-align: left;"
+            + "            }"
+
+            + "            form {"
+            + "                max-width: 400px;"
+            + "                margin: 2.5% 0 0 2.5%;"
+            + "                background-color: white;"
+            + "                padding: 20px;"
+            + "            }"
+
+            + "            div {"
+            + "                max-width: 400px;"
+            + "                margin: 2.5% 0 0 2.5%;"
+            + "                background-color: white;"
+            + "                padding: 20px;"
+            + "            }"
+
+            + "            label {"
+            + "                display: block;"
+            + "                margin-bottom: 5px;"
+            + "                font-weight: bold;"
+            + "            }"
+
+            + "            select,"
+            + "            input[type=\"checkbox\"],"
+            + "            input[type=\"date\"],"
+            + "            input[type=\"number\"],"
+            + "            input[type=\"submit\"] {"
+            + "                margin-bottom: 10px;"
+            + "            }"
+
+            + "            input[type=\"submit\"] {"
+            + "                padding: 10px 20px;"
+            + "                background-color: #4CAF50;"
+            + "                color: #fff;"
+            + "                border: none;"
+            + "                cursor: pointer;"
+            + "            }"
+
+            + "            input[type=\"submit\"]:hover {"
+            + "                background-color: #45a049;"
+            + "            }"
+            + "        </style>"
+        );
+
+        return htmlPage.toString();
     }
 }
