@@ -29,7 +29,7 @@ public class AdminController {
 
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login";
+        return "redirect:/login.html";
     }
 
     @PostMapping("/login")
