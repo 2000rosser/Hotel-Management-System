@@ -11,16 +11,20 @@ import org.springframework.web.client.RestTemplate;
 import service.core.RoomInfo;
 import service.core.BookingInfo;
 import service.core.Checkout;
+import service.core.Admin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 @RestController
 @CrossOrigin(origins = "*")
 public class AdminController {
+
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -121,6 +125,49 @@ public class AdminController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(confirmation);
+    }
+
+    // @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+    // public ResponseEntity<String> login(@RequestBody String loginInfo) {
+    //     System.out.println("Received a request to login");
+    //     System.out.println("login info" + loginInfo);
+    //     String confirmation = "";
+    //     HttpEntity<String> entity = new HttpEntity<>(loginInfo);
+    //     ResponseEntity<String> response = restTemplate.exchange("http://hotel:8080/login", HttpMethod.POST, entity, String.class);
+
+    //     if(response.getStatusCode().equals(HttpStatus.OK)){
+    //         confirmation = response.getBody();
+    //         System.out.println("Login successful");
+    //     } else {
+    //         System.out.println("Error " + response.getStatusCode());
+    //         return ResponseEntity.status(response.getStatusCode()).build();
+    //     }
+        
+    //     return ResponseEntity
+    //             .status(HttpStatus.CREATED)
+    //             .body(confirmation);
+    // }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Admin admin) {
+        System.out.println("Received a request to login");
+        System.out.println("login info" + admin);
+        String confirmation = "";
+        HttpEntity<Admin> entity = new HttpEntity<>(admin);
+        ResponseEntity<String> response = restTemplate.exchange("http://hotel:8080/admin/check", HttpMethod.POST, entity, String.class);
+        System.out.println("response" + response);
+        if(response.getStatusCode().equals(HttpStatus.OK) &&  response.getBody() != null){
+            confirmation = response.getBody();
+            System.out.println("Login successful");
+            return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(confirmation);
+        } else {
+            System.out.println("Error " + response.getStatusCode());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
     }
 
 

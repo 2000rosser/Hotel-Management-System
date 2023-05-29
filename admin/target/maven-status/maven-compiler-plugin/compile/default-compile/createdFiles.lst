@@ -1,1 +1,2 @@
 service\Application.class
+service\controllers\AdminController.class
