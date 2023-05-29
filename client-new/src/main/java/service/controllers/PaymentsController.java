@@ -52,7 +52,11 @@ public class PaymentsController {
                     + "            <input type=\"hidden\" name=\"responseArg\" id=\"responseArg\" value=\'" + bookingObject + "\'/>\n"
                     + "            <input type=\"button\" value=\"Submit Payment\" onclick=\"submitPayment()\"/>\n"
                     + "        </form><br><br>\n"
-                    + "        <div id=\"showConfirmation\"></div>\n"
+                    + "        <div id=\"showConfirmation\"></div><br>\n"
+
+                    + "        <form action=\"http://localhost:8084/roomInfo.html\">\n"
+                    + "             <input type=\"submit\" value=\"Back to Room Select\">\n"
+                    + "         </form><br>"
 
                     + "        <script>\n"
                     + "             function submitPayment() {\n"
@@ -60,7 +64,7 @@ public class PaymentsController {
                     + "                 var responseObj = JSON.parse(responseArg);\n"
                     + "                 var name = document.getElementById(\"name\").value;\n"
 
-                    + "                 responseObj.name = name;\n"
+                    + "                 responseObj.name = document.getElementById(\"name\").value;\n"
                     + "                 responseObj.email = document.getElementById(\"email\").value;\n"
                     + "                 responseObj.phone = document.getElementById(\"phone\").value;\n"
                     + "                 responseArg = JSON.stringify(responseObj);\n"
@@ -85,8 +89,8 @@ public class PaymentsController {
 
                     + "             function handleSuccess(name) {\n"
                     + "                 console.log(\"HandleSuccess status ok!\");"
-                    + "                 var form = document.getElementById(\"paymentForm\");\n"
 
+                    + "                 var form = document.getElementById(\"paymentForm\");\n"
                     + "                 form.style.display = \"none\";\n"
 
                     + "                 var responseElement = document.getElementById(\"showConfirmation\");\n"
