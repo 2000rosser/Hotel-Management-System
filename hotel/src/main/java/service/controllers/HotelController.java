@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import service.core.BookingInfo;
 import service.core.Quotation;
 import service.core.RoomInfo;
@@ -40,6 +43,7 @@ public class HotelController {
             list.add("http:" + getHost()
                     + "/quotations/" + quotation.reference);
         }
+
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -49,24 +53,31 @@ public class HotelController {
         if (quotation == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
         return ResponseEntity.status(HttpStatus.OK).body(quotation);
     }
 
     @PostMapping(value = "/quotations", consumes = "application/json")
-    public ResponseEntity<Quotation> createQuotation(
-            @RequestBody RoomInfo info) {
-        System.out.println("Service object: " + service);
-        System.out.println("RoomInfo object: " + info);
-        Quotation quotation = service.generateQuotation(info);
-        System.out.println("Quotation object: " + quotation);
-        quotations.put(quotation.reference, quotation);
-        String url = "http://" + getHost() + "/quotations/"
-                + quotation.reference;
-        return ResponseEntity
+    public ResponseEntity<ArrayList<Quotation>> createQuotations (@RequestBody RoomInfo info) {
+            ArrayList<Quotation> quotations = service.generateQuotations(info);
+
+            if (quotations.isEmpty()) {
+                System.out.println("No Quotations Generated");
+                return ResponseEntity.noContent().build();
+            }
+
+            
+            for (Quotation quotation : quotations) {
+                this.quotations.put(quotation.reference, quotation);
+            }
+
+            String url = "http:// " + getHost() + "/quotations";
+
+            return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .header("Location", url)
                 .header("Content-Location", url)
-                .body(quotation);
+                .body(quotations);
     }
 
     @PostMapping(value = "/confirmation", consumes = "application/json")

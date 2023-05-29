@@ -9,7 +9,9 @@ import service.model.Bookings;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -35,13 +37,17 @@ public class HotelService extends AbstractQuotationService {
 	private BookingsService bookingsService;
 
 	private RoomService roomService;
+	List<Bookings> bookedRooms;
 
-	public Quotation generateQuotation(RoomInfo roomInfo) {
+
+	public ArrayList<Quotation> generateQuotations(RoomInfo roomInfo) {
 		if (roomInfo == null) {
 			throw new IllegalArgumentException("RoomInfo cannot be null.");
 		}
 	
 		List<Room> rooms = roomService.getAllRooms();
+		bookedRooms = bookingsService.getAllBookings();
+		ArrayList<Quotation> quotations = new ArrayList<Quotation>();
 	
 		if (rooms == null) {
 			throw new IllegalArgumentException("Rooms cannot be null.");
@@ -49,9 +55,39 @@ public class HotelService extends AbstractQuotationService {
 	
 		for (Room room : rooms) {
 			if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.bedSize == room.getBedSize()) && (roomInfo.balcony == room.isBalcony()) && (roomInfo.view.equals(room.getView())) && (roomInfo.accessibility == room.isAccessible())) {
-				long daysBetween = ChronoUnit.DAYS.between(room.getCheckInDate(), room.getCheckOutDate());
+				
+				// Check if the checkIn date is in the past
+				if (LocalDate.parse(roomInfo.checkIn).isBefore(LocalDate.now()) || LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.now())) {
+					continue; // Skip to the next room
+				}
+				
+				// Check if the checkOut date is before the checkIn date
+				if (LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.parse(roomInfo.checkIn))) {
+					continue; // Skip to the next room
+				}
+				
+				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
 				int days = Math.toIntExact(daysBetween);
-	
+				boolean isOverlapping = false;
+				boolean isBooked = false;
+				
+				// Checking for overlapping dates between user proposed dates and existing bookings
+				for (Bookings booking : bookedRooms) {
+					LocalDate bookedCheckIn = booking.getCheckInDate();
+					LocalDate bookedCheckOut = booking.getCheckOutDate();
+					
+					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
+						System.out.println("******************************************OVERLAP******************************************");
+						isOverlapping = true;
+
+						// Checking for current room booking status
+						if(booking.isBooked() == true)
+						{
+							isBooked = true;
+						}
+					}
+				}
+
 				// Add additional costs based on room attributes
 				double extraCosts = 0;
 				if (roomInfo.balcony) {
@@ -63,23 +99,98 @@ public class HotelService extends AbstractQuotationService {
 				else if (roomInfo.view.equals("Garden View")) {
 					extraCosts += 15;
 				}
-				else if (roomInfo.view.equals("Any View")) {
+				else if (roomInfo.view.equals("City View")) {
 					extraCosts += 0;
 				}
-	
-				totalPrice = room.getPrice() * days + extraCosts;
-				return new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo);
+
+				// Setting the CheckIn and CheckOut Dates for the Quote usng Client specified dates
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkIn));
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkOut));
+				
+				totalPrice = (room.getPrice() * days) + (extraCosts * days);
+				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo, room.getId());
+
+				if(isOverlapping == false && isBooked == false)
+				{
+					quotations.add(quote);
+				}
+
+			} else if ((roomInfo.type.equals(room.getType())) && (roomInfo.beds == room.getBeds()) && (roomInfo.accessibility == room.isAccessible())) {
+
+				// Check if the checkIn date is in the past
+				if (LocalDate.parse(roomInfo.checkIn).isBefore(LocalDate.now()) || LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.now())) {
+					continue; // Skip to the next room
+				}
+				
+				// Check if the checkOut date is before the checkIn date
+				if (LocalDate.parse(roomInfo.checkOut).isBefore(LocalDate.parse(roomInfo.checkIn))) {
+					continue; // Skip to the next room
+				}
+
+				long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(roomInfo.checkIn), LocalDate.parse(roomInfo.checkOut));
+				int days = Math.toIntExact(daysBetween);
+				boolean isOverlapping = false;
+				boolean isBooked = false;
+				
+				// Checking for overlapping dates between user proposed dates and existing bookings
+				for (Bookings booking : bookedRooms) {
+					LocalDate bookedCheckIn = booking.getCheckInDate();
+					LocalDate bookedCheckOut = booking.getCheckOutDate();
+					
+					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
+						System.out.println("******************************************OVERLAP******************************************");
+						isOverlapping = true;
+
+						// Checking for current room booking status
+						if(booking.isBooked() == true)
+						{
+							isBooked = true;
+						}
+					}
+				}
+
+				// Add additional costs based on room attributes
+				double extraCosts = 0;
+				if (roomInfo.balcony) {
+					extraCosts += 20;
+				}
+				if (roomInfo.view.equals("Sea View")) {
+					extraCosts += 30;
+				} 
+				else if (roomInfo.view.equals("Garden View")) {
+					extraCosts += 15;
+				}
+				else if (roomInfo.view.equals("City View")) {
+					extraCosts += 0;
+				}
+
+				// Setting the CheckIn and CheckOut Dates for the Quote usng Client specified dates
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkIn));
+				room.setCheckInDate(LocalDate.parse(roomInfo.checkOut));
+				
+				totalPrice = (room.getPrice() * days) + (extraCosts * days);
+				Quotation quote = new Quotation(COMPANY, generateReference(PREFIX), totalPrice, roomInfo, room.getId());
+
+				if(isOverlapping == false && isBooked == false)
+				{
+					quotations.add(quote);
+				}
 			}
 		}
 	
 		// If no matching room is found, return a Quotation for the requested RoomInfo.
-		System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
-		// Assume a default price for the non-existent room.
-		double defaultPrice = 100.0;
-		return new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo);
-	}
+		if (quotations.isEmpty()) {
+			System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
+			// Assume a default price and room ID for the non-existent room.
+			int defaultRoomID = 0;
+			double defaultPrice = 0.0;
+			quotations.add(new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo, defaultRoomID));
+		}
+			System.out.println(quotations.size());
+			return quotations;
+		}
 
-	public BookingInfo checkout(Checkout checkInfo){
+		public BookingInfo checkout(Checkout checkInfo){
 		List<Bookings> bookings = bookingsService.getAllBookings();
 
 		if (bookings == null) {
@@ -119,17 +230,16 @@ public class HotelService extends AbstractQuotationService {
 	}
 	
 
-
 	public BookingInfo createBooking(BookingInfo info){
-
+		System.out.println("Table Entries: " + bookingsService.getTableCount());
 		Bookings booking = new Bookings();
 
 		booking.setBookingRef(info.booking_ref);
 		booking.setId(info.ID);
-		// booking.setName(info.name);
-		// booking.setEmail(info.email);
-		booking.setName("test");
-		booking.setEmail("test");
+		booking.setName(info.name);
+		booking.setEmail(info.email);
+		//booking.setName("test");
+		//booking.setEmail("test");
 		booking.setPhone(info.phone);
 		booking.setType(info.type);
 		booking.setBeds(info.beds);
@@ -143,7 +253,8 @@ public class HotelService extends AbstractQuotationService {
 		booking.setBooked(true);
 
 
-		bookingsService.saveOrUpdate(booking);		
+		bookingsService.saveOrUpdate(booking);
+		System.out.println("Table Entries: " + bookingsService.getTableCount());
 
 		return info;
 	}

@@ -1,0 +1,17 @@
+* Booking Confirmation Page (Pete)
+* Admin  (Ross)
+	- Check-In
+	- Check-Out
+	- Cleaning Service and Deposit
+* Admin Login (Ross)
+* Payments Page and Booking Confirmation (Pete)
+* Additional Distribted System Technology (Karol)
+* Additional Quote and Booking Checks (Karol)
+* Clean Up Code (Karol, Pete and Ross)
+* Clean Up UI (Karol, Pete and Ross)
+	- CSS
+	- Images
+	- Text and Descriptions
+* README.md (Karol)
+* Report (Karol)
+* Video Recording and Editing (Karol)

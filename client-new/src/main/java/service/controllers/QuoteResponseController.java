@@ -43,9 +43,10 @@ public class QuoteResponseController {
                 htmlPage.append("       <p>Price: " + price[quoteCounter] + "</p>");
 
                 htmlPage.append(
-                    "        <p>" + responseArg + "</p>\n" +
+                    //"        <p>" + responseArg + "</p>\n" +
                     "       <form action=\"/payments\" method=\"get\">\n" +
-                    "          <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n" +
+                    //"          <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n" +
+                    "          <input type=\"hidden\" name=\"responseArg\" value=\'" + quotationNode + "\'/>\n" +
                     "          <input type=\"submit\" value=\"Proceed to Payment\"/>\n" +
                     "       </form>\n" +
                     "       <br></br>"
@@ -53,20 +54,6 @@ public class QuoteResponseController {
 
                 quoteCounter++;
             }
-            
-
-            //return "<html>\n"
-            //    + "    <body>\n"
-            //    + "        <h1>Quote Response</h1>\n"
-            //    + "        <p>" + responseArg + "</p>\n"
-            //    + "        <p>Company: " + company[0] + "</p>\n"
-            //    + "        <form action=\"/payments\" method=\"get\">\n"
-            //    + "            <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n"
-            //    + "            <input type=\"submit\" value=\"Proceed to Payment\"/>\n"
-            //    + "        </form>\n"
-            //    + "    </body>\n"
-            //    + "</html>";
-
         }
         catch (Exception e) {
             System.out.println("\n");
@@ -79,13 +66,6 @@ public class QuoteResponseController {
                 "   </body>\n" +
                 "</html>"
             );
-
-            // return "<html>\n"
-            //         + "    <body>\n"
-            //         + "        <h1>Error</h1>\n"
-            //         + "        <p>An error occurred while processing the quote response.</p>\n"
-            //         + "    </body>\n"
-            //         + "</html>";
         }
         
         htmlPage.append(

@@ -19,6 +19,10 @@ import service.core.Quotation;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+
 @RestController
 @RequestMapping("/applications")
 @CrossOrigin(origins = "*")
@@ -29,34 +33,76 @@ public class HMSController {
 
     private List<String> quotationUrls = new ArrayList<>(); // add a list to store the URL
 
+    //@PostMapping(consumes = "application/json", produces = "application/json")
+    //public ResponseEntity<Application> createApplication(
+    //        @RequestBody RoomInfo roomInfo) {
+    //    System.out.println("Received a request to create an application");
+    //    Application application = new Application(roomInfo);
+    //    System.out.println("Creating application: " + application.id);
+    //    applications.put(application.id, application);
+//
+    //    for (String quotationUrl : quotationUrls) {
+    //        System.out.println("Requesting quotation from " + quotationUrl);
+    //        ResponseEntity<Quotation> response = restTemplate.postForEntity(quotationUrl, roomInfo, Quotation.class);
+    //        if (response.getStatusCode().equals(HttpStatus.CREATED)) {
+    //            application.quotations.add(response.getBody());
+    //            // print out the body of the quotation
+    //            System.out.println("Quotation received: " + response.getBody());
+    //        } else {
+    //            System.out.println("Error requesting quotation from " + quotationUrl + ". Response status: "
+    //                    + response.getStatusCode());
+    //        }
+    //    }
+    //    System.out.println("Application created and saved. Returning application with status CREATED.");
+    //    return ResponseEntity
+    //            .status(HttpStatus.CREATED)
+    //            .body(application);
+    //}
+
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Application> createApplication(
-            @RequestBody RoomInfo roomInfo) {
+    public ResponseEntity<Application> createApplication(@RequestBody RoomInfo roomInfo) {
         System.out.println("Received a request to create an application");
         Application application = new Application(roomInfo);
         System.out.println("Creating application: " + application.id);
         applications.put(application.id, application);
 
+        System.out.println("\n##### ##### #####");
+        System.out.println("roomInfo Check");
+        System.out.println("type: " + roomInfo.type);
+        System.out.println("checkIn: " + roomInfo.checkIn);
+        System.out.println("checkIn: " + roomInfo.checkOut);
+        System.out.println("##### ##### #####\n");
+
         for (String quotationUrl : quotationUrls) {
             System.out.println("Requesting quotation from " + quotationUrl);
-            ResponseEntity<Quotation> response = restTemplate.postForEntity(quotationUrl, roomInfo, Quotation.class);
+            ResponseEntity<ArrayList<Quotation>> response = restTemplate.exchange(
+                    quotationUrl,
+                    HttpMethod.POST,
+                    new HttpEntity<>(roomInfo),
+                    new ParameterizedTypeReference<ArrayList<Quotation>>() {
+                    }
+            );
             if (response.getStatusCode().equals(HttpStatus.CREATED)) {
-                application.quotations.add(response.getBody());
-                // print out the body of the quotation
-                System.out.println("Quotation received: " + response.getBody());
+                ArrayList<Quotation> quotations = response.getBody();
+                application.quotations.addAll(quotations);
+                // Process the received quotations
+                // ...
             } else {
                 System.out.println("Error requesting quotation from " + quotationUrl + ". Response status: "
                         + response.getStatusCode());
             }
         }
+
         System.out.println("Application created and saved. Returning application with status CREATED.");
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(application);
     }
 
+
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Application>> getApplications() {
+        System.out.println("HMSController 0");
         List<Application> applicationList = new ArrayList<>(applications.values());
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -65,6 +111,7 @@ public class HMSController {
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Application> getApplication(@PathVariable int id) {
+        System.out.println("HMSController 1");
         Application application = applications.get(id);
         if (application != null) {
             return ResponseEntity
@@ -79,6 +126,7 @@ public class HMSController {
 
     @PostMapping(value = "/services", consumes = "text/plain")
     public ResponseEntity<String> addService(@RequestBody String url) {
+        System.out.println("HMSController 2");
         if (!quotationUrls.contains(url)) {
             quotationUrls.add(url);
             System.out.println("Added new URL: " + url);
@@ -88,6 +136,7 @@ public class HMSController {
 
     @GetMapping(value = "/services", produces = "application/json")
     public ResponseEntity<List<String>> getServices() {
+        System.out.println("HMSController 3");
         return ResponseEntity.ok(quotationUrls);
     }
 

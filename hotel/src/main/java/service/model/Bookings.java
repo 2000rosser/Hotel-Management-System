@@ -96,6 +96,14 @@ public class Bookings {
         return bookingRef;
     }
 
+    public void setBooking_name(String booking_name) {
+        this.booking_name = booking_name;
+    }
+
+    public String getBooking_name() {
+        return booking_name;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

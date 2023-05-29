@@ -59,3 +59,9 @@ Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:461)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 55 more
+2023-05-28 20:27:40 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BOOKINGS" not found; SQL statement:
+SELECT * FROM BOOKINGS [42102-200]
+2023-05-28 20:27:48 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ROOM" not found; SQL statement:
+SELECT * FROM ROOM [42102-200]
