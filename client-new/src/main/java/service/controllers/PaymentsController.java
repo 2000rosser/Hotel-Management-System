@@ -3,8 +3,6 @@ package service.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.w3c.dom.html.HTMLParagraphElement;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +15,7 @@ public class PaymentsController {
     @GetMapping("/payments")
     @ResponseBody
     public String handlePayments(@RequestParam("responseArg") String responseArg) {
-        // Process the response argument and generate the appropriate HTML content
-        //{"company":"Auld Fellas Ltd.","reference":"AF001000","totalPrice":110,"roomInfo":{"type":"Single","beds":1,"bedSize":1,"balcony":false,"view":"Sea View","accessibility":false,"checkIn":"2023-05-28","checkOut":"2023-05-29","price":2},"roomId":1}
-        
+
         String type = roomInfoElement(responseArg, "type");
         int beds = Integer.parseInt(roomInfoElement(responseArg, "beds"));
         double bedSize = Double.parseDouble(roomInfoElement(responseArg, "bedSize"));
@@ -55,7 +51,7 @@ public class PaymentsController {
                     + "        <div id=\"showConfirmation\"></div><br>\n"
 
                     + "        <form action=\"http://localhost:8084/roomInfo.html\">\n"
-                    + "             <input type=\"submit\" value=\"Back to Room Select\">\n"
+                    + "             <input type=\"submit\" value=\"Back to Room Selection\">\n"
                     + "         </form><br>"
 
                     + "        <script>\n"
@@ -129,8 +125,7 @@ public class PaymentsController {
 
         } catch (Exception e) {
             System.out.println("\n");
-            System.out.println("Error processing quote. Raw response:\n" + arg);
-            //e.printStackTrace();
+            System.out.println("Error processing quote.");
         }
 
         return "";
@@ -145,8 +140,7 @@ public class PaymentsController {
 
         } catch (Exception e) {
             System.out.println("\n");
-            System.out.println("Error processing quote. Raw response:\n" + arg);
-            //e.printStackTrace();
+            System.out.println("Error processing quote.");
         }
         return "";
     }
@@ -155,7 +149,6 @@ public class PaymentsController {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.createObjectNode();
 
-        //((ObjectNode) jsonNode).put("booking_ref", 5);
         ((ObjectNode) jsonNode).put("ID", roomId);
         ((ObjectNode) jsonNode).put("name", "bob");
         ((ObjectNode) jsonNode).put("email", "bob@gmail");
@@ -174,12 +167,9 @@ public class PaymentsController {
         try {
             jsonString = objectMapper.writeValueAsString(jsonNode);
         } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        System.out.println("bookingObject: " + jsonNode);
-        System.out.println("jsonString: " + jsonString);
         return jsonString;
     }
 }

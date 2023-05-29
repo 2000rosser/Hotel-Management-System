@@ -21,7 +21,6 @@ public class AdminController {
         if (dbAdmin != null && dbAdmin.getPassword().equals(admin.getPassword())) {
             return dbAdmin;
         }
-        //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         
         return null;
     }

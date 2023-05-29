@@ -1,33 +1,19 @@
 package service.service;  
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import service.core.Quotation;
 import service.model.Bookings;
-import service.model.Room;
 import service.repository.BookingsRepository;
 import javax.transaction.Transactional;
 
 
 @Service
 public class BookingsService {
-    private int index = 1000;
 
     @Autowired  
     BookingsRepository bookingsRepository;
-
-    @Autowired
-    public BookingsService(RoomService roomService) {
-		this.roomService = roomService;
-		System.out.println("BookingsService is created, roomService is: " + roomService);
-    }
-
-    private RoomService roomService;
 
     public List<Bookings> getAllBookings() {  
         List<Bookings> bookings = new ArrayList<Bookings>();

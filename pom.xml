@@ -7,12 +7,9 @@
 
     <modules>
         <module>core</module>
-        <module>client</module>
         <module>hms</module>
         <module>hotel</module>
         <module>client-new</module>
         <module>admin</module>
     </modules>
-
-    
 </project>
