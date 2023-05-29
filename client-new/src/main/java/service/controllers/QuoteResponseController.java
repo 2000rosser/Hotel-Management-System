@@ -33,26 +33,38 @@ public class QuoteResponseController {
             double[] price = new double[quotationsNode.size()];
             int quoteCounter = 0;
 
-            for (JsonNode quotationNode : quotationsNode) {
-                company[quoteCounter] = quotationNode.get("company").asText();
-                reference[quoteCounter] = quotationNode.get("reference").asText();
-                price[quoteCounter] = quotationNode.get("totalPrice").asDouble();
-
-                htmlPage.append("       <p>Company: " + company[quoteCounter] + "</p>");
-                htmlPage.append("       <p>Reference: " + reference[quoteCounter] + "</p>");
-                htmlPage.append("       <p>Price: " + price[quoteCounter] + "</p>");
-
-                htmlPage.append(
-                    //"        <p>" + responseArg + "</p>\n" +
-                    "       <form action=\"/payments\" method=\"get\">\n" +
-                    //"          <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n" +
-                    "          <input type=\"hidden\" name=\"responseArg\" value=\'" + quotationNode + "\'/>\n" +
-                    "          <input type=\"submit\" value=\"Book This Room\"/>\n" +
-                    "       </form>\n" +
-                    "       <br></br>"
+            if (quotationsNode.size() == 1 && quotationsNode.get(0).get("totalPrice").asDouble() == 0.0) {
+                System.out.println("\n####\nDefault Page detected####\n");
+                htmlPage.append("<h1>No rooms available matching the search criteria</h1>\n"
+                    + "<button onclick=\"redirectBack()\">Back to Room Options</button>\n"
+                    + "<script>\n"
+                    + "   function redirectBack() {\n"
+                    + "       window.location.href = \"http://localhost:8084/roomInfo.html\"\n"
+                    + "   } \n"
+                    + "</script>\n"
                 );
+            } else {
+                for (JsonNode quotationNode : quotationsNode) {
+                    company[quoteCounter] = quotationNode.get("company").asText();
+                    reference[quoteCounter] = quotationNode.get("reference").asText();
+                    price[quoteCounter] = quotationNode.get("totalPrice").asDouble();
 
-                quoteCounter++;
+                    htmlPage.append("       <p>Company: " + company[quoteCounter] + "</p>");
+                    htmlPage.append("       <p>Reference: " + reference[quoteCounter] + "</p>");
+                    htmlPage.append("       <p>Price: " + price[quoteCounter] + "</p>");
+
+                    htmlPage.append(
+                        //"        <p>" + responseArg + "</p>\n" +
+                        "       <form action=\"/payments\" method=\"get\">\n" +
+                        //"          <input type=\"hidden\" name=\"responseArg\" value=\'" + responseArg.replace("'", "&#39;") + "\'/>\n" +
+                        "          <input type=\"hidden\" name=\"responseArg\" value=\'" + quotationNode + "\'/>\n" +
+                        "          <input type=\"submit\" value=\"Book This Room\"/>\n" +
+                        "       </form>\n" +
+                        "       <br></br>"
+                    );
+
+                    quoteCounter++;
+                }
             }
         }
         catch (Exception e) {

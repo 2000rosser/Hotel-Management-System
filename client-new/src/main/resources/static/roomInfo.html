@@ -57,7 +57,7 @@
             <input type="date" id="checkOut" name="checkOut" required><br><br>
 
             <label for="price">Price</label>
-            <input type="number" id="price" name="price" min="0" max="1000" required>
+            <input type="number" id="price" name="price" min="0" max="1000" required><br><br>
 
             <input type="submit" value="Submit">
         </form>
@@ -112,8 +112,8 @@
                 console.log(JSON.stringify(response));
                 var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(JSON.stringify(response));
                 console.log("Opening URL:", url);
-                //window.location.href = url;
-                window.open(url, '_blank');
+                window.location.href = url;
+                //window.open(url, '_blank');
             }
 
             function dateToString(key) {
