@@ -1,5 +1,4 @@
 package service.core;
-import service.core.RoomInfo;
 
 public class BookInfo {
 

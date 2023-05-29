@@ -24,14 +24,13 @@ public class HotelService extends AbstractQuotationService {
 	public static final String PREFIX = "H1";
 	public static final String COMPANY = "Hotel One Ltd.";
 	public double totalPrice = 0;
-
 	
 
 	@Autowired
     public HotelService(RoomService roomService, BookingsService bookingService) {
 		this.roomService = roomService;
 		this.bookingsService = bookingService;
-		System.out.println("HotelService is created, roomService is: " + roomService);
+		System.out.println("HotelService is created, roomService.");
     }
 
 	private BookingsService bookingsService;
@@ -77,9 +76,6 @@ public class HotelService extends AbstractQuotationService {
 					LocalDate bookedCheckOut = booking.getCheckOutDate();
 					
 					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
-						System.out.println("******************************************OVERLAP******************************************");
-
-
 						// Checking for current room booking status
 						if(booking.isBooked() == true && (room.getId() == booking.getId()))
 						{
@@ -139,9 +135,6 @@ public class HotelService extends AbstractQuotationService {
 					LocalDate bookedCheckOut = booking.getCheckOutDate();
 					
 					if (!(LocalDate.parse(roomInfo.checkOut).isBefore(bookedCheckIn) || LocalDate.parse(roomInfo.checkIn).isAfter(bookedCheckOut))) {
-						System.out.println("******************************************OVERLAP******************************************");
-	
-
 						// Checking for current room booking status
 						if(booking.isBooked() == true && (room.getId() == booking.getId()))
 						{
@@ -182,13 +175,11 @@ public class HotelService extends AbstractQuotationService {
 	
 		// If no matching room is found, return a Quotation for the requested RoomInfo.
 		if (quotations.isEmpty()) {
-			System.out.println("NO ROOMS AVAILABLE WITH THESE CRITERIA, CREATING A NEW QUOTATION");
 			// Assume a default price and room ID for the non-existent room.
 			int defaultRoomID = 0;
 			double defaultPrice = 0.0;
 			quotations.add(new Quotation(COMPANY, generateReference(PREFIX), defaultPrice, roomInfo, defaultRoomID));
 		}
-			System.out.println(quotations.size());
 			return quotations;
 		}
 
@@ -200,9 +191,6 @@ public class HotelService extends AbstractQuotationService {
 		}
 
 		for (Bookings booking : bookings) {
-			System.out.println("Booking name: " + booking.getName() + " BookingInfo name: " + checkInfo.name);
-			System.out.println("Booking email: " + booking.getEmail() + " BookingInfo email: " + checkInfo.email);
-			System.out.println("Booking ID: " + booking.getId() + " BookingInfo ID: " + checkInfo.id);
 			if (booking.getName().equals(checkInfo.name) && booking.getEmail().equals(checkInfo.email) && booking.getId()==checkInfo.id) {
 				
 				
@@ -221,8 +209,6 @@ public class HotelService extends AbstractQuotationService {
 				info.checkIn = booking.getCheckInDate();
 				info.checkOut = booking.getCheckOutDate();
 				info.price = booking.getPrice();
-
-				// bookingsService.delete(booking.getId());
 				
 				return info;
 			}
@@ -255,8 +241,6 @@ public class HotelService extends AbstractQuotationService {
 		booking.setBooked(true);
 	
 		bookingsService.saveOrUpdate(booking);
-		System.out.println("Table Entries: " + bookingsService.getTableCount());
-	
 
 		return info;
 	}

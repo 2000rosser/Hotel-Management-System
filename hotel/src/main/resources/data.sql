@@ -20,10 +20,6 @@ INSERT INTO ROOMS VALUES(4, 'Suite', 2, 2.0, true, 'City View', false, '2023-01-
 INSERT INTO ROOMS VALUES(5, 'Double', 1, 1.5, false, 'Garden View', false, '2023-01-01', '2023-01-02', 110, false);
 INSERT INTO ROOMS VALUES(6, 'Twin', 2, 1.0, true, 'Sea View', false, '2023-01-01', '2023-01-02', 90, false);
 
--- INSERT INTO ROOMS VALUES(7, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 80, false);
--- INSERT INTO ROOMS VALUES(8, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 85, false);
--- INSERT INTO ROOMS VALUES(9, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 90, false);
--- INSERT INTO ROOMS VALUES(10, 'Single', 1, 1.0, false, 'Sea View', false, '2023-06-01', '2023-06-03', 95, false);
 
 DROP TABLE IF EXISTS BOOKINGS;
 CREATE TABLE BOOKINGS(
