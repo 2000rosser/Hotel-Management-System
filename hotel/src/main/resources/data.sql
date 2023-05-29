@@ -45,8 +45,7 @@ CREATE TABLE BOOKINGS(
     BOOKED BOOLEAN
 );
 
-<<<<<<< HEAD
-INSERT INTO BOOKINGS VALUES(1, 'test', 'test', '1234567890', 'Booking 1', 2, 'Double', 1, 1.5, true, 'Garden View', false, '2023-06-12', '2023-06-14', 120, true);
+
 
 DROP TABLE IF EXISTS ADMIN;
 
@@ -57,7 +56,3 @@ CREATE TABLE ADMIN(
 );
 
 INSERT INTO ADMIN VALUES (1, 'admin', 'admin');
-=======
-INSERT INTO BOOKINGS VALUES(1, 'H1-123085708491237', 'test', '1234567890', 'Booking 1', 2, 'Double', 1, 1.5, true, 'Garden View', false, '2023-06-12', '2023-06-14', 120, true);
-INSERT INTO BOOKINGS VALUES(2, 'H1-327015010365012', 'John Smith', '1234567891', 'Booking 2', 2, 'Single', 1, 1.5, true, 'Sea View', false, '2023-05-30', '2023-06-03', 120, true);
->>>>>>> 2134cff215f587b29f1677e26d1e107d9888284a
