@@ -138,8 +138,28 @@
                     .then(rooms => {
                         let roomsList = document.getElementById('roomsList');
                         for(let room of rooms) {
+                            console.log(room);
                             let listItem = document.createElement('li');
                             listItem.textContent = `Room ID: ${room.id}, Type: ${room.type}, Beds: ${room.beds}, Bed Size: ${room.bedSize}, View: ${room.view}, Price: ${room.price}`;
+
+                            // Create delete button for each room
+                            let deleteButton = document.createElement('button');
+                            deleteButton.textContent = 'Delete';
+                            deleteButton.onclick = function(event) {
+                                event.preventDefault();
+                                fetch(`http://localhost:8083/rooms/delete/${room.id}`, { method: 'DELETE' })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            console.log('Room deleted successfully');
+                                            listItem.remove();  // Remove this room from the list
+                                        } else {
+                                            console.error('Failed to delete room', room.id);
+                                        }
+                                    })
+                                    .catch(error => console.error('Error:', error));
+                            };
+
+                            listItem.appendChild(deleteButton);
                             roomsList.appendChild(listItem);
                         }
                     })
@@ -153,7 +173,11 @@
         </div>
         
         <form>
-            <h2>All Rooms</h2><hr><br><br>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>All Rooms</h2>
+                <button onclick="window.location.href='addRoom.html'">Add Room</button>
+            </div>
+            <hr><br><br>
             <ul id="roomsList"></ul>
         </form>
     </body>

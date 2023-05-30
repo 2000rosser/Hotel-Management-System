@@ -42,4 +42,13 @@ public class RoomController {
         roomService.saveOrUpdate(room);  
         return room.getId();
     }
+
+    @PostMapping("/room/add")
+    private int addRoom(@RequestBody Room room) {
+        List<Room> rooms = roomService.getAllRooms();
+        int totalRooms = rooms.size();
+        room.setId(totalRooms + 1);
+        roomService.saveOrUpdate(room);
+        return room.getId();
+    }
 }

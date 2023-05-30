@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Room</title>
+    <style>
+        /* Your styling here... */
+    </style>
+    <script>
+        function addRoom(event) {
+            event.preventDefault();
+            
+            let room = {
+                type: document.getElementById('type').value,
+                beds: document.getElementById('beds').value,
+                bedSize: document.getElementById('bedSize').value,
+                balcony: document.getElementById('balcony').checked,
+                view: document.getElementById('view').value,
+                accessibility: document.getElementById('accessibility').checked,
+                checkIn: document.getElementById('checkIn').value,
+                checkOut: document.getElementById('checkOut').value,
+                price: document.getElementById('price').value,
+            };
+
+            fetch('http://localhost/room/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(room),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Room added successfully:', data);
+                window.location.href = "allRooms.html";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="addRoom(event)">
+        <label for="type">Type:</label><br>
+        <input type="text" id="type" name="type"><br>
+
+        <label for="beds">Beds:</label><br>
+        <input type="number" id="beds" name="beds"><br>
+
+        <label for="bedSize">Bed Size:</label><br>
+        <input type="number" id="bedSize" name="bedSize" step="0.01"><br>
+
+        <label for="balcony">Balcony:</label><br>
+        <input type="checkbox" id="balcony" name="balcony"><br>
+
+        <label for="view">View:</label><br>
+        <input type="text" id="view" name="view"><br>
+
+        <label for="accessibility">Accessibility:</label><br>
+        <input type="checkbox" id="accessibility" name="accessibility"><br>
+
+        <label for="checkIn">Check-In:</label><br>
+        <input type="date" id="checkIn" name="checkIn"><br>
+
+        <label for="checkOut">Check-Out:</label><br>
+        <input type="date" id="checkOut" name="checkOut"><br>
+
+        <label for="price">Price:</label><br>
+        <input type="number" id="price" name="price"><br>
+
+        <input type="submit" value="Add Room">
+    </form>
+</body>
+</html>

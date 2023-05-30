@@ -14,6 +14,7 @@ import service.core.Checkout;
 import service.core.Admin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpEntity;
@@ -36,12 +37,39 @@ public class AdminController {
             new ParameterizedTypeReference<List<RoomInfo>>() {}
         );
 
+        //looop through roomInfo and print each ones id
+        for (RoomInfo room : response.getBody()) {
+            System.out.println(room.id);
+        }
         System.out.println("Received a request to retrieve all rooms");
         System.out.println("Returning " + response.getBody().size() + " rooms");
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response.getBody());
+    }
+
+    @PostMapping(value = "/rooms/add", consumes = "application/json")
+    public ResponseEntity<RoomInfo> addRoom(
+            @RequestBody RoomInfo roomInfo) {
+        System.out.println("Received a request to add a room");
+        System.out.println("room id" + roomInfo.id);
+        System.out.println("room type" + roomInfo.type);
+        System.out.println("room price" + roomInfo.price);
+        // System.out.println("room capacity" + roomInfo.capacity);
+        // System.out.println("room availability" + roomInfo.availability);
+        ResponseEntity<RoomInfo> response = restTemplate.postForEntity("http://hotel:8080/room/add", roomInfo, RoomInfo.class);
+        //print out the response status code
+        System.out.println("Response status code: " + response.getStatusCode());
+        if(response.getStatusCode().equals(HttpStatus.CREATED)){
+            System.out.println("Room added");
+        }else{
+            System.out.println("Error adding room " + response.getStatusCode());
+        }
+        System.out.println("Room added and saved. Returning room with status CREATED.");
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(roomInfo);
     }
 
     @GetMapping(value = "/bookings", produces = "application/json") 
@@ -162,6 +190,26 @@ public class AdminController {
         }
         
     }
+
+    @DeleteMapping("/rooms/delete/{id}")
+    public ResponseEntity<?> deleteRoom(@PathVariable("id") int id) {
+        System.out.println("Received a request to delete a room");
+        System.out.println("Deleting room: " + id);
+        HttpEntity<Integer> entity = new HttpEntity<>(id);
+        ResponseEntity<String> response = restTemplate.exchange("http://hotel:8080/room/" + id, HttpMethod.DELETE, entity, String.class);
+
+        if(response.getStatusCode().equals(HttpStatus.OK) || response.getStatusCode().equals(HttpStatus.NO_CONTENT)){
+            System.out.println("Room deleted");
+        } else {
+            System.out.println("Error " + response.getStatusCode());
+            return ResponseEntity.status(response.getStatusCode()).build();
+        }
+        
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+    
 
 
 }
