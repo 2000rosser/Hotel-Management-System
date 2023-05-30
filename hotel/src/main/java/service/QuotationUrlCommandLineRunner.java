@@ -14,7 +14,6 @@ public class QuotationUrlCommandLineRunner implements CommandLineRunner {
     
     private String url = "http://hotel:8080/quotations";
 
-
     @Override
     public void run(String... args) throws Exception {
 
