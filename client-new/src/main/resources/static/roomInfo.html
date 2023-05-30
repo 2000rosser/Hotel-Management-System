@@ -1,178 +1,290 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Select Room Preferences</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-image: url(hotel.jpg);
-                background-position: right;
-                background-repeat: no-repeat;
-                background-size: cover;
+<head>
+    <title>Select Room Preferences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(hotel_blur.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed; /* Keep the background image static */
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #68c4e2; /* Use a lighter blue color for the navbar background */
+            padding: 1%;
+            color: #fff;
+            margin: 0; /* Remove default margin */
+        }
+
+        .navbar-title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: left;
+            padding: 20px; /* Reduce the padding for the navbar text */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Rest of the code... */
+        form {
+            max-width: 400px;
+            margin: 2.5% 0 0 2.5%;
+            background-color: white;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="checkbox"],
+        input[type="date"],
+        input[type="number"],
+        input[type="submit"] {
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #68c4e2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #17a9da;
+        }
+
+        .carousel-container {
+            position: absolute;
+            top: 70%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+            height: 60%;
+            width: 60%;
+            overflow: hidden;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 10%; /* Adjust the left position as per your preference */
+            display: none;
+            padding: 10px;
+            color: black;
+            font-size: 24px;
+            text-align: center;
+            width: 80%; /* Adjust the width as per your preference */
+            height: 100%;
+            animation-duration: 2s;
+            animation-fill-mode: forwards;
+        }
+
+        /* Animation keyframes for the carousel */
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
             }
-    
-            .navbar {
-                background-color: #E8F2F7;
-                padding: 10px;
-                color: #333;
+            100% {
+                opacity: 1;
             }
-    
-            .navbar-title {
-                font-size: 20px;
-                font-weight: bold;
-                text-align: left;
+        }
+
+        @keyframes fade-out {
+            0% {
+                opacity: 1;
             }
-    
-            form {
-                max-width: 400px;
-                margin: 2.5% 0 0 2.5%;
-                background-color: white;
-                padding: 20px;
+            100% {
+                opacity: 0;
             }
-    
-            label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <span class="navbar-title">Astrum Distributed Systems (Hotel Management and Booking)</span>
+</div>
+
+<form id="roomInfo">
+    <h2>Book a Room</h2>
+    <hr>
+    <label for="type">Room Type</label>
+    <select id="type" name="type">
+        <option value="Single">Single</option>
+        <option value="Double">Double</option>
+        <option value="Twin">Twin</option>
+        <option value="Suite">Suite</option>
+    </select><br><br>
+
+    <label for="beds">Number of Beds</label>
+    <select id="beds" name="beds">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select><br><br>
+
+    <label for="bedSize">Bed Size</label>
+    <select id="bedSize" name="bedSize">
+        <option value="1.0">1.0</option>
+        <option value="1.5">1.5</option>
+        <option value="2.0">2.0</option>
+    </select><br><br>
+
+    <label for="balcony">Balcony</label>
+    <input type="checkbox" id="balcony" name="balcony"><br><br>
+
+    <label for="view">View</label>
+    <select id="view" name="view">
+        <option value="City View">City View</option>
+        <option value="Garden View">Garden View</option>
+        <option value="Sea View">Sea View</option>
+    </select><br><br>
+
+    <label for="accessibility">Accessibility Access</label>
+    <input type="checkbox" id="accessibility" name="accessibility"><br><br>
+
+    <label for="checkIn">Start Date</label>
+    <input type="date" id="checkIn" name="checkIn" required><br><br>
+
+    <label for="checkOut">End Date</label>
+    <input type="date" id="checkOut" name="checkOut" required><br><br>
+
+    <label for="price">Price</label>
+    <input type="number" id="price" name="price" min="0" max="1000" required><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+<div class="carousel-container">
+    <div class="carousel-item fade-animation">
+        <p>"Unforgettable stay! The hotel exceeded all expectations."" - Emily Thompson</p>
+    </div>
+    <div class="carousel-item fade-animation">
+        <p>"A hidden gem! This hotel provided a delightful experience." - Benjamin Collins</p>
+    </div>
+    <div class="carousel-item fade-animation">
+        <p>"Pure luxury! The service was impeccable." - Sophia Ramirez</p>
+    </div>
+    <div class="carousel-item fade-animation">
+        <p>"Beyond amazing! The hotel's attention to detail was outstanding." - Daniel Lee</p>
+    </div>
+    <div class="carousel-item fade-animation">
+        <p>"A perfect retreat! We enjoyed every moment of our stay." - Ava Martinez</p>
+    </div>
+    <div class="carousel-item fade-animation">
+        <p>"Incredible hospitality! The staff made us feel like VIPs." - Noah Turner</p>
+    </div>
+</div>
+<script>
+    document.getElementById('roomInfo').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var url = "http://localhost:8083/applications";
+        var form = e.target;
+        var formData = new FormData(form);
+        var roomInfo = {};
+
+        formData.forEach(function(value, key) {
+            var newval = value;
+
+            if (key === 'checkIn' || key === 'checkOut') {
+                newval = dateToString(key);
             }
-    
-            select,
-            input[type="checkbox"],
-            input[type="date"],
-            input[type="number"],
-            input[type="submit"] {
-                margin-bottom: 10px;
-            }
-    
-            input[type="submit"] {
-                padding: 10px 20px;
-                background-color: #4CAF50;
-                color: #fff;
-                border: none;
-                cursor: pointer;
-            }
-    
-            input[type="submit"]:hover {
-                background-color: #45a049;
-            }
-        </style>
-    </head>
-    <body>
-        <form id="roomInfo">
-            <!--
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required><br><br>
-            -->
 
-            <label for="type">Room Type</label>
-            <select id="type" name="type">
-                <option value="Single">Single</option>
-                <option value="Double">Double</option>
-                <option value="Twin">Twin</option>
-                <option value="Suite">Suite</option>
-            </select><br><br>
+            if (value === "on") { newval = true; }
+            roomInfo[key] = newval;
+        });
 
-            <label for="beds">Number of Beds</label>
-            <select id="beds" name="beds">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select><br><br>
+        console.log("Form data to be sent:", JSON.stringify(roomInfo));
 
-            <label for="bedSize">Bed Size</label>
-            <select id="bedSize" name="bedSize">
-                <option value="1.0">1.0</option>
-                <option value="1.5">1.5</option>
-                <option value="2.0">2.0</option>
-            </select><br><br>
-
-            <label for="balcony">Balcony</label>
-            <input type="checkbox" id="balcony" name="balcony"><br><br>
-
-            <label for="view">View</label>
-            <select id="view" name="view">
-                <option value="City View">City View</option>
-                <option value="Garden View">Garden View</option>
-                <option value="Sea View">Sea View</option>
-            </select><br><br>
-
-            <label for="accessibility">Accessibility Access</label>
-            <input type="checkbox" id="accessibility" name="accessibility"><br><br>
-
-            <label for="checkIn">Start Date</label>
-            <input type="date" id="checkIn" name="checkIn" required><br><br>
-
-            <label for="checkOut">End Date</label>
-            <input type="date" id="checkOut" name="checkOut" required><br><br>
-
-            <label for="price">Price</label>
-            <input type="number" id="price" name="price" min="0" max="1000" required><br><br>
-
-            <input type="submit" value="Submit">
-        </form>
-
-        <script>
-            document.getElementById('roomInfo').addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                var url = "http://localhost:8083/applications";
-                var form = e.target;
-                var formData = new FormData(form);
-                var roomInfo = {};
-
-                formData.forEach(function(value, key) {
-                    var newval = value;
-
-                    if (key === 'checkIn' || key === 'checkOut') {
-                        newval = dateToString(key);
-                    }
-
-                    if (value === "on") { newval = true; }
-                    roomInfo[key] = newval;
+        fetch(url, {
+            method:'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(roomInfo)
+        })
+        .then(function(response) {
+            if (response.ok) {
+                console.log("Response Ok!");
+                response.json().then(function(responseJson) {
+                    console.log("Response text:", responseJson);
+                    createQuotePage(responseJson);
                 });
-
-                console.log("Form data to be sent:", JSON.stringify(roomInfo));
-
-                fetch(url, {
-                    method:'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(roomInfo)
-                })
-                .then(function(response) {
-                    if (response.ok) {
-                        console.log("Response Ok!");
-                        response.json().then(function(responseJson) {
-                            console.log("Response text:", responseJson);
-                            createQuotePage(responseJson);
-                        });
-                    } else {
-                        console.error('Application Creation Failed! HTTP status:', response.status);
-                        console.log('Response: ', response.text());
-                        alert('Application Creation Failed!');
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Processing Error! Details:', error);
-                    alert('Processing Error!');
-                });
-            });
-
-            function createQuotePage(response) {
-                console.log(JSON.stringify(response));
-                var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(JSON.stringify(response));
-                console.log("Opening URL:", url);
-                window.location.href = url;
-                //window.open(url, '_blank');
+            } else {
+                console.error('Application Creation Failed! HTTP status:', response.status);
+                console.log('Response: ', response.text());
+                alert('Application Creation Failed!');
             }
+        })
+        .catch(function(error) {
+            console.error('Processing Error! Details:', error);
+            alert('Processing Error!');
+        });
+    });
 
-            function dateToString(key) {
-                var dateElement = document.getElementById(key);
-                console.log("Checkin Date " + dateElement.value);
-                return dateElement.value;
-            }
-        </script>
-    </body>
+    function createQuotePage(response) {
+        console.log(JSON.stringify(response));
+        var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(JSON.stringify(response));
+        console.log("Opening URL:", url);
+        window.location.href = url;
+        //window.open(url, '_blank');
+    }
+
+    function dateToString(key) {
+        var dateElement = document.getElementById(key);
+        console.log("Checkin Date " + dateElement.value);
+        return dateElement.value;
+    }
+
+    // Carousel animation
+    var carouselItems = document.querySelectorAll('.carousel-item');
+    var currentReview = 0;
+
+    function showReview(reviewIndex) {
+        for (var i = 0; i < carouselItems.length; i++) {
+            carouselItems[i].style.display = 'none';
+        }
+
+        carouselItems[reviewIndex].style.display = 'block';
+    }
+
+    function fadeOutReview(reviewIndex) {
+        carouselItems[reviewIndex].style.animation = 'fade-out 2s linear'; /* Updated animation duration */
+        carouselItems[reviewIndex].addEventListener('animationend', function() {
+            this.style.display = 'none';
+        });
+    }
+
+    function fadeInReview(reviewIndex) {
+        carouselItems[reviewIndex].style.display = 'block';
+        carouselItems[reviewIndex].style.animation = 'fade-in 2s linear'; /* Updated animation duration */
+    }
+
+    function startCarousel() {
+        fadeOutReview(currentReview);
+
+        currentReview++;
+        if (currentReview >= carouselItems.length) {
+            currentReview = 0;
+        }
+
+        setTimeout(function() {
+            fadeInReview(currentReview);
+        }, 2000); /* Updated timeout duration */
+
+        setTimeout(startCarousel, 5000); /* Updated timeout duration */
+    }
+
+    startCarousel();
+</script>
+</body>
 </html>
