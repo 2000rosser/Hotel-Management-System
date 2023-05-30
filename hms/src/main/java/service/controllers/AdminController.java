@@ -54,6 +54,13 @@ public class AdminController {
             new ParameterizedTypeReference<List<BookingInfo>>() {}
         );
 
+        //looop through bookingInfo and print each one
+        for (BookingInfo booking : response.getBody()) {
+            System.out.println(booking.ID);
+            System.out.println(booking.name);
+            System.out.println(booking.email);
+        }
+
         System.out.println("Received a request to retrieve all bookings");
         System.out.println("Returning " + response.getBody().size() + " bookings");
 
