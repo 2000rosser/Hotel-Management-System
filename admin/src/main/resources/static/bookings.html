@@ -133,18 +133,25 @@
         </style>
         <script>
             window.onload = function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const bookingId = urlParams.get('bookingId');
-
-                fetch(`http://localhost:8083/booking/${bookingId}`, { method: 'GET' })
+                fetch('http://localhost:8083/bookings', { method: 'GET' })
                     .then(response => response.json())
-                    .then(booking => {
+                    .then(bookings => {
+                        // This line will print out the JSON data to your browser console.
+                        console.log(JSON.stringify(bookings, null, 2));
+                        
                         const bookingDetailsElement = document.getElementById('bookingDetails');
-                        bookingDetailsElement.textContent = `Booking ID: ${booking.ID}, Booking Reference: ${booking.booking_ref}, Type: ${booking.type}, Beds: ${booking.beds}, Bed Size: ${booking.bedSize}, View: ${booking.view}, Balcony: ${booking.balcony}, Accessibility: ${booking.accessibility}, Check-In: ${booking.checkIn}, Check-Out: ${booking.checkOut}, Price: ${booking.price}`;
+                        bookings.forEach(booking => {
+                            let bookingInfo = `Booking ID: ${booking.ID}, Booking Reference: ${booking.booking_ref}, Type: ${booking.type}, Beds: ${booking.beds}, Bed Size: ${booking.bedSize}, View: ${booking.view}, Balcony: ${booking.balcony}, Accessibility: ${booking.accessibility}, Check-In: ${booking.checkIn}, Check-Out: ${booking.checkOut}, Price: ${booking.price}`;
+                            let bookingDiv = document.createElement("div");
+                            bookingDiv.textContent = bookingInfo;
+                            bookingDetailsElement.appendChild(bookingDiv);
+                        });
                     })
                     .catch(error => console.error('Error:', error));
             }
         </script>
+        
+        
     </head>
     <body>
         <div class="navbar">
