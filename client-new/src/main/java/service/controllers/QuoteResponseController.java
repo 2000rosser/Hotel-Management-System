@@ -53,12 +53,26 @@ public class QuoteResponseController {
                     reference[quoteCounter] = quotationNode.get("reference").asText();
                     price[quoteCounter] = quotationNode.get("totalPrice").asDouble();
 
+                    JsonNode roomInfo = quotationNode.get("roomInfo");
+
                     htmlPage.append(
                         "       <form action=\"/payments\" method=\"get\">\n"
                         + "           <h3>Booking</h3>"
                         + "           <p>Company: " + company[quoteCounter] + "</p>"
                         + "           <p>Reference: " + reference[quoteCounter] + "</p>"
                         + "           <p>Price: " + price[quoteCounter] + "</p>"
+                        + "           <div class=\"two-column-grid\">"
+                        + "               <div>"
+                        + "                   <p>" + roomInfo.get("type").asText() + " Room</p>"
+                        + "                   <p>" + roomInfo.get("view").asText() + "</p>"
+                        + "                   <p>Check-In: " + roomInfo.get("checkIn").asText() + "</p>"
+                        + "               </div>"
+                        + "               <div>"
+                        + "                   <p>Balcony: " + roomInfo.get("balcony").asBoolean() + "</p>"
+                        + "                   <p>Accessibility: " + roomInfo.get("accessibility").asBoolean() + "</p>"
+                        + "                   <p>Check-Out: " + roomInfo.get("checkOut").asText() + "</p>"
+                        + "               </div>"
+                        + "           </div><br>"
                         + "          <input type=\"hidden\" name=\"responseArg\" value=\'" + quotationNode + "\'/>\n"
                         + "          <input type=\"submit\" value=\"Book This Room\"/>\n"
                         + "       </form>\n"
@@ -197,6 +211,16 @@ public class QuoteResponseController {
             + "            opacity: 0;"
             + "        }"
             + "    }"
+            
+            + "    .two-column-grid {"
+            + "         display: grid;"
+            + "         grid-template-columns: auto auto;"
+            + "         grid-gap: 10px;"
+            + "     }"
+
+            + "    .two-column-grid p {"
+            + "         line-height: 0.5;"
+            + "     }"
             + "</style>"
         );
 
