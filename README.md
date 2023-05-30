@@ -70,21 +70,34 @@ After building the shell script you can run it usnig the following command:
 ***
 
 #### Kubernetes (Minikube)
-Navigate to the Kubernetes sciprts directory (once in root directory) within the application and build the following script:
+**Make sure to have Docker Desktop running before attempting to run this application.*
+Start minikube:
 
-`cd KUBERNETESscripts`
+`minikube start`
+
+Navigate to the Bash sciprts directory (once in root directory) within the application and build the following script:
+
+`cd .\BASHscripts\`
 
 Build the script with the following command:
 
-`BUILD`
+`chmod u+x kubernetesDeploy.sh`
 
 Run the script with the following command:
 
-`RUN`
+`./kubernetesDeploy`
 
-Open up the Windows Powershell and type the following command:
+Wait for the pods to be ready:
 
-`minikube start`
+`kubectl get pods`
+
+Once all the pods are ready, we need to port forward each of the services:
+
+`kubectl port-forward service/admin 8085:80`
+`kubectl port-forward service/client 8084:80`
+`kubectl port-forward service/hms 8083:80`
+`kubectl port-forward service/hotel 8080:80`
+
 
 ***
 
