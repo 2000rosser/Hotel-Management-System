@@ -2,7 +2,8 @@ package service.core;
 
 public class RoomInfo {
 	
-	public RoomInfo(String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, int price) {
+	public RoomInfo(int id, String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, int price) {
+		this.id = id;
 		this.type = type;
 		this.beds = beds;
 		this.bedSize = bedSize;
@@ -20,6 +21,7 @@ public class RoomInfo {
 	
 	public RoomInfo() {}
 	
+	public int id;
 	public String type;
 	public int beds;
 	public double bedSize;
