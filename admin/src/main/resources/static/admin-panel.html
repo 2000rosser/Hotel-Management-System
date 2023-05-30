@@ -2,19 +2,154 @@
 <html>
     <head>
         <title>Admin Page</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-image: url(hotel_blur.png);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-attachment: fixed; /* Keep the background image static */
+                margin: 0;
+                padding: 0;
+            }
+    
+            .navbar {
+                background-color: #68c4e2; /* Use a lighter blue color for the navbar background */
+                padding: 1%;
+                color: #fff;
+                margin: 0; /* Remove default margin */
+            }
+    
+            .navbar-title {
+                font-size: 20px;
+                font-weight: bold;
+                text-align: left;
+                padding: 20px; /* Reduce the padding for the navbar text */
+                margin: 0; /* Remove default margin */
+            }
+    
+            /* Rest of the code... */
+            #styling_div {
+                max-width: 400px;
+                margin: 2.5% 0 0 2.5%;
+                background-color: white;
+                padding: 20px;
+            }
+    
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+    
+            select,
+            input[type="checkbox"],
+            input[type="date"],
+            input[type="number"],
+            input[type="submit"] {
+                margin-bottom: 10px;
+            }
+    
+            input[type="submit"] {
+                padding: 10px 20px;
+                background-color: #68c4e2;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+            }
+    
+            input[type="submit"]:hover {
+                background-color: #17a9da;
+            }
+    
+            input[type="button"] {
+                padding: 10px 20px;
+                background-color: #68c4e2;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+            }
+    
+            input[type="button"]:hover {
+                background-color: #17a9da;
+            }
+    
+            #styling_button button {
+                padding: 10px 20px;
+                background-color: #68c4e2;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+            }
+    
+            #styling_button button:hover {
+                background-color: #17a9da;
+            }
+    
+            .carousel-container {
+                position: absolute;
+                top: 70%;
+                left: 70%;
+                transform: translate(-50%, -50%);
+                height: 60%;
+                width: 60%;
+                overflow: hidden;
+            }
+    
+            .carousel-item {
+                position: absolute;
+                top: 0;
+                left: 10%; /* Adjust the left position as per your preference */
+                display: none;
+                padding: 10px;
+                color: black;
+                font-size: 24px;
+                text-align: center;
+                width: 80%; /* Adjust the width as per your preference */
+                height: 100%;
+                animation-duration: 2s;
+                animation-fill-mode: forwards;
+            }
+    
+            /* Animation keyframes for the carousel */
+            @keyframes fade-in {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+    
+            @keyframes fade-out {
+                0% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+        </style>
     </head>
     <body>
-        <h1>Admin Page</h1>
-        <button onclick="location.href='/checkIn.html'">Check-In</button><br>
-        <button onclick="location.href='/checkOut.html'">Check-Out</button><br>
-        <button onclick="location.href='/rooms.html'">Get All Rooms</button><br>
-        
-        <button onclick="location.href='/bookings.html'">Get All Bookings</button><br>
+        <div class="navbar">
+            <span class="navbar-title">[ADMIN] Astrum Distributed Systems (Hotel Management and Booking)</span>
+        </div>
+        <div id="styling_div">
+            <h2>Admin Panel</h2><hr><br><br>
+            <div id="styling_button">
+                <button onclick="location.href='/checkIn.html'">Check-In</button><br><br>
+                <button onclick="location.href='/checkOut.html'">Check-Out</button><br><br>
+                <button onclick="location.href='/rooms.html'">Get All Rooms</button><br><br>
+                <button onclick="location.href='/bookings.html'">Get All Bookings</button><br><br><br><br>
+            </div>
 
-        <form action="/retrieveBooking.html" method="get">
-            <label for="ref">Booking Reference:</label><br>
-            <input type="text" id="ref" name="ref"><br>
-            <input type="submit" value="Retrieve Booking">
-        </form>
+            <form action="/retrieveBooking.html" method="get">
+                <label for="ref">Booking Reference:</label>
+                <input type="text" id="ref" name="ref"><br><br>
+                <input type="submit" value="Retrieve Booking">
+            </form>
+        </div>
     </body>
 </html>
