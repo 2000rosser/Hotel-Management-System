@@ -25,6 +25,7 @@ public class BookingsService {
         return bookingsRepository.findByBookingRef(booking_ref);
     }
 
+    @Transactional
     public void deleteByBookingRef(int booking_ref) {  
         bookingsRepository.deleteByBookingRef(booking_ref);
     }

@@ -191,7 +191,10 @@ public class HotelService extends AbstractQuotationService {
 		}
 
 		for (Bookings booking : bookings) {
-			if (booking.getName().equals(checkInfo.name) && booking.getEmail().equals(checkInfo.email) && booking.getId()==checkInfo.id) {
+			System.out.println(booking.getName() + " " + checkInfo.name);
+			System.out.println(booking.getEmail() + " " + checkInfo.email);
+			System.out.println(booking.getBookingRef() + " " + checkInfo.booking_ref);
+			if (booking.getName().equals(checkInfo.name) && booking.getEmail().equals(checkInfo.email) && booking.getBookingRef()==checkInfo.booking_ref) {
 				
 				
 				BookingInfo info = new BookingInfo();
