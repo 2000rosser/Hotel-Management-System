@@ -3,13 +3,13 @@
 <head>
     <title>Add Room</title>
     <style>
-        /* Your styling here... */
     </style>
     <script>
         function addRoom(event) {
             event.preventDefault();
             
             let room = {
+                id: null,
                 type: document.getElementById('type').value,
                 beds: document.getElementById('beds').value,
                 bedSize: document.getElementById('bedSize').value,
@@ -21,7 +21,7 @@
                 price: document.getElementById('price').value,
             };
 
-            fetch('http://localhost/room/add', {
+            fetch('http://localhost:8083/rooms/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,7 +31,11 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Room added successfully:', data);
-                window.location.href = "allRooms.html";
+
+                let addedRoomDiv = document.getElementById('addedRoom');
+                addedRoomDiv.innerHTML = `<p>Room added successfully! ID: ${data.id}</p>`;
+
+                event.target.reset();
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -70,5 +74,6 @@
 
         <input type="submit" value="Add Room">
     </form>
+    <div id="addedRoom"></div>
 </body>
 </html>

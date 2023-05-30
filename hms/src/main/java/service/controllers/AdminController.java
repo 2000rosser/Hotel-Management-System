@@ -50,27 +50,30 @@ public class AdminController {
     }
 
     @PostMapping(value = "/rooms/add", consumes = "application/json")
-    public ResponseEntity<RoomInfo> addRoom(
-            @RequestBody RoomInfo roomInfo) {
+    public ResponseEntity<RoomInfo> addRoom(@RequestBody RoomInfo roomInfo) {
         System.out.println("Received a request to add a room");
         System.out.println("room id" + roomInfo.id);
         System.out.println("room type" + roomInfo.type);
         System.out.println("room price" + roomInfo.price);
-        // System.out.println("room capacity" + roomInfo.capacity);
-        // System.out.println("room availability" + roomInfo.availability);
+        
         ResponseEntity<RoomInfo> response = restTemplate.postForEntity("http://hotel:8080/room/add", roomInfo, RoomInfo.class);
-        //print out the response status code
+        RoomInfo roomWithId = response.getBody();
+
+        System.out.println("Room added with id: " + roomWithId.id);
         System.out.println("Response status code: " + response.getStatusCode());
-        if(response.getStatusCode().equals(HttpStatus.CREATED)){
+        
+        if(response.getStatusCode().equals(HttpStatus.OK)){
             System.out.println("Room added");
         }else{
             System.out.println("Error adding room " + response.getStatusCode());
         }
         System.out.println("Room added and saved. Returning room with status CREATED.");
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(roomInfo);
+                .body(roomWithId);
     }
+
 
     @GetMapping(value = "/bookings", produces = "application/json") 
     public ResponseEntity<List<BookingInfo>> getBookings() {
@@ -82,7 +85,6 @@ public class AdminController {
             new ParameterizedTypeReference<List<BookingInfo>>() {}
         );
 
-        //looop through bookingInfo and print each one
         for (BookingInfo booking : response.getBody()) {
             System.out.println(booking.ID);
             System.out.println(booking.name);
