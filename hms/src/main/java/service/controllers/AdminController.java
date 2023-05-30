@@ -88,20 +88,30 @@ public class AdminController {
                 .body(response.getBody());
     }
 
+
     @PostMapping(value = "/bookings", consumes = "application/json", produces = "application/json")
     public ResponseEntity<BookingInfo> retrieveBooking(
             @RequestBody Checkout checkInfo) {
         System.out.println("Received a request to retrieve a booking");
-        // System.out.println("Creating application: " + application.id);
-        // applications.put(application.id, application);
+        System.out.println("check name" + checkInfo.name);
+        System.out.println("check email" + checkInfo.email);
+        System.out.println("check booking ref" + checkInfo.booking_ref);
         BookingInfo retrieved = new BookingInfo();
         ResponseEntity<BookingInfo> response = restTemplate.postForEntity("http://hotel:8080/checkout", checkInfo, BookingInfo.class);
+        //print out the response status code
+        System.out.println("Response status code: " + response.getStatusCode());
         if(response.getStatusCode().equals(HttpStatus.OK)){
             retrieved = response.getBody();
             System.out.println("Booking recieved" + retrieved);
         }else{
             System.out.println("Error " + response.getStatusCode());
         }
+        //print out the retrieved booking
+        System.out.println("Retrieved booking: " + retrieved.ID);
+        System.out.println("Retrieved booking: " + retrieved.name);
+        System.out.println("Retrieved booking: " + retrieved.email);
+
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(retrieved);
@@ -113,11 +123,11 @@ public class AdminController {
     public ResponseEntity<Checkout> performCheckout(@RequestBody Checkout checkInfo) {
         System.out.println("Received a request to retrieve a booking");
         Checkout confirmation = new Checkout();
-        System.out.println("Deleting booking: " + checkInfo.id);
+        // System.out.println("Deleting booking: " + checkInfo.id);
         System.out.println("check name" + checkInfo.name);
         System.out.println("check email" + checkInfo.email);
-        HttpEntity<Integer> entity = new HttpEntity<>(checkInfo.id);
-        ResponseEntity<String> response = restTemplate.exchange("http://hotel:8080/bookings/" + checkInfo.id, HttpMethod.DELETE, entity, String.class);
+        HttpEntity<Integer> entity = new HttpEntity<>(checkInfo.booking_ref);
+        ResponseEntity<String> response = restTemplate.exchange("http://hotel:8080/bookings/ref/" + checkInfo.booking_ref, HttpMethod.DELETE, entity, String.class);
 
         if(response.getStatusCode().equals(HttpStatus.OK) || response.getStatusCode().equals(HttpStatus.NO_CONTENT)){
             confirmation = checkInfo;

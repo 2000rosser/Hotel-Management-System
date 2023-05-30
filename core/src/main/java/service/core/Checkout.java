@@ -3,8 +3,8 @@ package service.core;
 
 public class Checkout {
 	
-	public Checkout(int id, String name, String email) {
-		this.id = id;
+	public Checkout(int booking_ref, String name, String email) {
+		this.booking_ref = booking_ref;
 		this.name = name;
 		this.email = email;
 	}
@@ -13,7 +13,7 @@ public class Checkout {
 	
 	public Checkout() {}
 	
-	public int id;
+	public int booking_ref;
 	public String name;
 	public String email;
 }

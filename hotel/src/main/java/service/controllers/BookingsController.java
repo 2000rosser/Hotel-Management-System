@@ -14,6 +14,7 @@ import service.service.HotelService;
 import service.core.BookingInfo;
 import service.core.Checkout;
 import service.model.Bookings;
+import java.util.ArrayList;
 
 @RestController  
 public class BookingsController {
@@ -30,8 +31,30 @@ public class BookingsController {
     HotelService hotelService;
 
     @GetMapping("/bookings")  
-    private List<Bookings> getAllBookings() {  
-        return bookingsService.getAllBookings();
+    private List<BookingInfo> getAllBookings() {  
+        List<Bookings> bookings = bookingsService.getAllBookings();
+        List<BookingInfo> bookingInfos = new ArrayList<BookingInfo>();
+
+        for (Bookings booking : bookings) {
+            BookingInfo bookingInfo = new BookingInfo();
+            bookingInfo.ID = booking.getId();
+            bookingInfo.name = booking.getName();
+            bookingInfo.email = booking.getEmail();
+            bookingInfo.phone = booking.getPhone();
+            bookingInfo.booking_ref = booking.getBookingRef();
+            bookingInfo.type = booking.getType();
+            bookingInfo.beds = booking.getBeds();
+            bookingInfo.bedSize = booking.getBedSize();
+            bookingInfo.balcony = booking.isBalcony();
+            bookingInfo.view = booking.getView();
+            bookingInfo.accessibility = booking.isAccessible();
+            bookingInfo.checkIn = booking.getCheckInDate();
+            bookingInfo.checkOut = booking.getCheckOutDate();
+            bookingInfo.price = booking.getPrice();
+            bookingInfos.add(bookingInfo);
+        }
+
+        return bookingInfos;
     }
 
     @GetMapping("/bookings/{id}")  
@@ -40,13 +63,30 @@ public class BookingsController {
     }
 
     @GetMapping("/bookings/ref/{ref}")  
-    private Bookings getBookingByRef(@PathVariable("ref") int ref) {  
-        return bookingsService.getBookingByBookingRef(ref);  
+    private BookingInfo getBookingByRef(@PathVariable("ref") int ref) {  
+        BookingInfo bookingInfo = new BookingInfo();
+        Bookings booking = bookingsService.getBookingByBookingRef(ref);
+        bookingInfo.ID = booking.getId();
+        bookingInfo.name = booking.getName();
+        bookingInfo.email = booking.getEmail();
+        bookingInfo.phone = booking.getPhone();
+        bookingInfo.booking_ref = booking.getBookingRef();
+        bookingInfo.type = booking.getType();
+        bookingInfo.beds = booking.getBeds();
+        bookingInfo.bedSize = booking.getBedSize();
+        bookingInfo.balcony = booking.isBalcony();
+        bookingInfo.view = booking.getView();
+        bookingInfo.accessibility = booking.isAccessible();
+        bookingInfo.checkIn = booking.getCheckInDate();
+        bookingInfo.checkOut = booking.getCheckOutDate();
+        bookingInfo.price = booking.getPrice();
+
+        return bookingInfo;  
     }
 
     @DeleteMapping("/bookings/ref/{ref}")  
     private void deleteBookingByRef(@PathVariable("ref") int ref) {  
-        bookingsService.deleteByBookingRef(ref);;  
+        bookingsService.deleteByBookingRef(ref);
     }
     
 
