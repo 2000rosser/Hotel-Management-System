@@ -140,14 +140,8 @@ Once all the pods are ready, we need to port forward each of the services:
 #### Recieving Quotes
 ![Recieving Quotes](media/client-recieving_quotes.gif)
 
-#### Selecting a Quote
-![Selecting a Quote](media/client-selecting_a_quote.gif)
-
 #### Making a Payment and Confirming a Boooking
 ![Making a Payment and Confirming a Boooking](media/client-making_a_payment_and_confirming_a_boooking.gif)
-
-#### Making Additional Bookings
-![Making Additional Bookings](media/client-making_additional_bookings.gif)
 
 
 **H2 Database**
@@ -161,20 +155,11 @@ Once all the pods are ready, we need to port forward each of the services:
 #### Viewing All Bookings
 ![Viewing All Bookings](media/admin-viewing_all_bookings.gif)
 
-#### Looking Up Bookings
-![Looking Up Bookings](media/admin-looking_up_bookings.gif)
-
 #### Adding and Removing Rooms
-![Adding and Removing Rooms](media/admin-adding_and_removing_Rooms.gif)
+![Adding and Removing Rooms](media/admin-adding_and_removing_rooms.gif)
 
 #### Check-In and Check-Out
 ![Check-In and Check-Out](media/admin-check-in_and_check-out.gif)
-
-
-**Kubernetes (Minikube) Load Balancer**
-
-#### Load Balancer in Action
-![Load Balancer in Action](media/kubernetes-load_balancer_in_action.gif)
 
 
 
