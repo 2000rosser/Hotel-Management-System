@@ -8,6 +8,7 @@
                 console.log(booking_ref);
                 let name = document.getElementById('name').value;
                 let email = document.getElementById('email').value;
+                let hotel = document.getElementById('hotel').value;
 
                 if(booking_ref && name && email) {
                     fetch('http://localhost:8083/bookings', { 
@@ -18,7 +19,8 @@
                         body: JSON.stringify({
                             booking_ref: booking_ref,
                             name: name,
-                            email: email
+                            email: email,
+                            hotel: hotel
                         })
                     })
                     .then(response => {
@@ -64,7 +66,8 @@
                     body: JSON.stringify({
                         booking_ref: parseInt(bookingInfo.booking_ref),
                         name: bookingInfo.name,
-                        email: bookingInfo.email
+                        email: bookingInfo.email,
+                        hotel: bookingInfo.hotel
                     })
                 })
                 .then(response => response.json())
@@ -217,8 +220,13 @@
                 <input type="text" id="name"><br><br>
                 <label for="email">Email:</label>
                 <input type="text" id="email"><br><br><br>
+                <label for="hotel">Hotel:</label>
+                <select id="hotel">
+                    <option value="Hotel1">Hotel1</option>
+                    <option value="Hotel2">Hotel2</option>
+                </select><br><br>
 
-                <button onclick="confirmBooking()">Confirm Check-Out</button>
+                <button onclick="event.preventDefault(); confirmBooking()">Confirm Check-Out</button>
             </div>
             <div id="bookingInfo"></div>
             <div id="checkoutConfirmation"></div>

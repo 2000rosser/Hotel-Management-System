@@ -29,10 +29,11 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("hotel") String hotel) {
         Map<String, String> map = new HashMap<>();
         map.put("username", username);
         map.put("password", password);
+        map.put("hotel", hotel);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

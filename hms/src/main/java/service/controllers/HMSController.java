@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 import service.core.Application;
 import service.core.RoomInfo;
 import service.core.Quotation;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+import service.service.HotelService;
+
 
 @RestController
 @RequestMapping("/applications")
@@ -33,31 +37,15 @@ public class HMSController {
 
     private List<String> quotationUrls = new ArrayList<>(); // add a list to store the URL
 
-    //@PostMapping(consumes = "application/json", produces = "application/json")
-    //public ResponseEntity<Application> createApplication(
-    //        @RequestBody RoomInfo roomInfo) {
-    //    System.out.println("Received a request to create an application");
-    //    Application application = new Application(roomInfo);
-    //    System.out.println("Creating application: " + application.id);
-    //    applications.put(application.id, application);
-//
-    //    for (String quotationUrl : quotationUrls) {
-    //        System.out.println("Requesting quotation from " + quotationUrl);
-    //        ResponseEntity<Quotation> response = restTemplate.postForEntity(quotationUrl, roomInfo, Quotation.class);
-    //        if (response.getStatusCode().equals(HttpStatus.CREATED)) {
-    //            application.quotations.add(response.getBody());
-    //            // print out the body of the quotation
-    //            System.out.println("Quotation received: " + response.getBody());
-    //        } else {
-    //            System.out.println("Error requesting quotation from " + quotationUrl + ". Response status: "
-    //                    + response.getStatusCode());
-    //        }
-    //    }
-    //    System.out.println("Application created and saved. Returning application with status CREATED.");
-    //    return ResponseEntity
-    //            .status(HttpStatus.CREATED)
-    //            .body(application);
-    //}
+    private final HotelService hotelService;
+    private Map<String, String> hotelUrls;
+
+    @Autowired
+    public HMSController(HotelService hotelService) {
+        this.hotelService = hotelService;
+        this.hotelUrls = hotelService.getHotelUrls();
+    }
+
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Application> createApplication(@RequestBody RoomInfo roomInfo) {
@@ -73,10 +61,10 @@ public class HMSController {
         System.out.println("checkIn: " + roomInfo.checkOut);
         System.out.println("##### ##### #####\n");
 
-        for (String quotationUrl : quotationUrls) {
-            System.out.println("Requesting quotation from " + quotationUrl);
+        for (Map.Entry<String, String> quotationUrl : hotelUrls.entrySet()) {
+            System.out.println("Requesting quotation from " + quotationUrl.getValue());
             ResponseEntity<ArrayList<Quotation>> response = restTemplate.exchange(
-                    quotationUrl,
+                    quotationUrl.getValue() + "/quotations",
                     HttpMethod.POST,
                     new HttpEntity<>(roomInfo),
                     new ParameterizedTypeReference<ArrayList<Quotation>>() {
@@ -85,8 +73,6 @@ public class HMSController {
             if (response.getStatusCode().equals(HttpStatus.CREATED)) {
                 ArrayList<Quotation> quotations = response.getBody();
                 application.quotations.addAll(quotations);
-                // Process the received quotations
-                // ...
             } else {
                 System.out.println("Error requesting quotation from " + quotationUrl + ". Response status: "
                         + response.getStatusCode());

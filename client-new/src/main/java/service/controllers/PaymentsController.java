@@ -30,8 +30,9 @@ public class PaymentsController {
         String checkOut = roomInfoElement(responseArg, "checkOut");
         double price = Double.parseDouble(rootElement( responseArg,  "totalPrice"));
         int roomId = Integer.parseInt(rootElement(responseArg, "roomId"));
+        String hotel = roomInfoElement(responseArg, "hotel");
         
-        String bookingObject = jsonConstruct(type, beds, bedSize, balcony, view, accessibility, checkIn, checkOut, price, roomId);
+        String bookingObject = jsonConstruct(type, beds, bedSize, balcony, view, accessibility, checkIn, checkOut, price, roomId, hotel);
 
         try {
             // Return an HTML form with the JSON data embedded in it
@@ -105,7 +106,7 @@ public class PaymentsController {
                     + "                 var responseElement = document.getElementById(\"showConfirmation\");\n"
                     + "                 responseElement.innerHTML = '<h2>Payment Successful!</h2><br>' +"
                     + "                     '<p>Congratulations ' + name + ' on your booking!<br>' + "
-                    + "                     '" + type + " room, with " + beds + " bed" + (beds > 1 ? "s" : "") + "<br>Fabulous " + view + "<br>' + "
+                    + "                     '" + type + " room in " + hotel + ", with " + beds + " bed" + (beds > 1 ? "s" : "") + "<br>Fabulous " + view + "<br>' + "
                     + "                     '" + (balcony ? "Includes a balcony<br>' + " : "' + ")
                     + "                     '" + (accessibility ? "Accessibility Access<br>' + " : "' + ")
                     + "                     '<br>Dates: " + checkIn + " to " + checkOut + "<br>' + "
@@ -160,7 +161,7 @@ public class PaymentsController {
         return "";
     }
 
-    private String jsonConstruct(String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, double price, int roomId) {
+    private String jsonConstruct(String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, double price, int roomId, String hotel) {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.createObjectNode();
 
@@ -178,6 +179,7 @@ public class PaymentsController {
         ((ObjectNode) jsonNode).put("checkIn", checkIn);
         ((ObjectNode) jsonNode).put("checkOut", checkOut);
         ((ObjectNode) jsonNode).put("price", price);
+        ((ObjectNode) jsonNode).put("hotel", hotel);
 
         String jsonString = "";
         try {

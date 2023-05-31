@@ -140,14 +140,14 @@
                         for(let room of rooms) {
                             console.log(room);
                             let listItem = document.createElement('li');
-                            listItem.textContent = `Room ID: ${room.id}, Type: ${room.type}, Beds: ${room.beds}, Bed Size: ${room.bedSize}, View: ${room.view}, Price: ${room.price}`;
+                            listItem.textContent = `Hotel: ${room.hotel}, Room ID: ${room.id}, Type: ${room.type}, Beds: ${room.beds}, Bed Size: ${room.bedSize}, View: ${room.view}, Price: ${room.price}`;
 
                             // Create delete button for each room
                             let deleteButton = document.createElement('button');
                             deleteButton.textContent = 'Delete';
                             deleteButton.onclick = function(event) {
                                 event.preventDefault();
-                                fetch(`http://localhost:8083/rooms/delete/${room.id}`, { method: 'DELETE' })
+                                fetch(`http://localhost:8083/rooms/delete/${room.id}/${room.hotel}`, { method: 'DELETE' })
                                     .then(response => {
                                         if (response.ok) {
                                             console.log('Room deleted successfully');

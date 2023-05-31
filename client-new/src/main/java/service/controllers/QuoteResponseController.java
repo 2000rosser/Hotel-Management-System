@@ -4,15 +4,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class QuoteResponseController {
-    @GetMapping("/quoteResponse")
+    @PostMapping("/quoteResponse")
     @ResponseBody
-    public String handleQuoteResponse(@RequestParam("arg") String responseArg) {
+    public String handleQuoteResponse(@RequestBody String responseArg) {
         // Process the response argument and generate the appropriate HTML content
         StringBuilder htmlPage = new StringBuilder();
 
@@ -63,6 +65,7 @@ public class QuoteResponseController {
                         + "           <p>Price: " + price[quoteCounter] + "</p>"
                         + "           <div class=\"two-column-grid\">"
                         + "               <div>"
+                        + "                   <p>Hotel: " + roomInfo.get("hotel").asText() + "</p>"
                         + "                   <p>" + roomInfo.get("type").asText() + " Room</p>"
                         + "                   <p>" + roomInfo.get("view").asText() + "</p>"
                         + "                   <p>Check-In: " + roomInfo.get("checkIn").asText() + "</p>"
