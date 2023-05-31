@@ -41,8 +41,11 @@ public class QuoteResponseController {
 
             if (quotationsNode.size() == 1 && quotationsNode.get(0).get("totalPrice").asDouble() == 0.0) {
                 System.out.println("\n####\nDefault Page detected####\n");
-                htmlPage.append("<h1>No rooms available matching the search criteria</h1>\n"
-                    + "<button onclick=\"redirectBack()\">Back to Room Options</button>\n"
+                htmlPage.append(
+                      "<form>"
+                    + "     <h2>No rooms available matching the search criteria</h2><hr><br><br>\n"
+                    + "     <button onclick=\"redirectBack()\">Back to Room Options</button>\n"
+                    + "</form>"
                     + "<script>\n"
                     + "   function redirectBack() {\n"
                     + "       window.location.href = \"http://localhost:8084/roomInfo.html\"\n"
@@ -59,7 +62,7 @@ public class QuoteResponseController {
 
                     htmlPage.append(
                         "       <form action=\"/payments\" method=\"get\">\n"
-                        + "           <h3>Booking</h3>"
+                        + "           <h2>Booking</h2><hr><br><br>"
                         + "           <p>Company: " + company[quoteCounter] + "</p>"
                         + "           <p>Reference: " + reference[quoteCounter] + "</p>"
                         + "           <p>Price: " + price[quoteCounter] + "</p>"
@@ -168,6 +171,18 @@ public class QuoteResponseController {
             + "    }"
 
             + "    input[type=\"submit\"]:hover {"
+            + "        background-color: #17a9da;"
+            + "    }"
+
+            + "    button {"
+            + "        padding: 10px 20px;"
+            + "        background-color: #68c4e2;"
+            + "        color: #fff;"
+            + "        border: none;"
+            + "        cursor: pointer;"
+            + "    }"
+
+            + "    button:hover {"
             + "        background-color: #17a9da;"
             + "    }"
 
