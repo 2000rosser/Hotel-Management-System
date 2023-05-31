@@ -19,6 +19,7 @@
                 checkIn: document.getElementById('checkIn').value,
                 checkOut: document.getElementById('checkOut').value,
                 price: document.getElementById('price').value,
+                hotel: document.getElementById('hotel').value,
             };
 
             fetch('http://localhost:8083/rooms/add', {
@@ -190,6 +191,13 @@
     </div>
     <form onsubmit="addRoom(event)">
         <h2>Add Room</h2><hr><br><br>
+
+        <label for="hotel">Hotel:</label>
+        <select id="hotel" name="hotel">
+            <option value="Hotel1">Hotel1</option>
+            <option value="Hotel2">Hotel 2</option>
+            
+        </select><br><br>
 
         <label for="type">Type:</label>
         <input type="text" id="type" name="type"><br><br>

@@ -117,6 +117,12 @@
 <form id="roomInfo">
     <h2>Book a Room</h2>
     <hr><br><br>
+    <label for="hotel">Hotel</label>
+    <select id="hotel" name="hotel">
+        <option value="Hotel1">Hotel1</option>
+        <option value="Hotel2">Hotel2</option>
+    </select><br><br>
+
     <label for="type">Room Type</label>
     <select id="type" name="type">
         <option value="Single">Single</option>
@@ -233,11 +239,21 @@
 
     function createQuotePage(response) {
         console.log(JSON.stringify(response));
-        var url = 'http://localhost:8084/quoteResponse?arg=' + encodeURIComponent(JSON.stringify(response));
-        console.log("Opening URL:", url);
-        window.location.href = url;
-        //window.open(url, '_blank');
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://localhost:8084/quoteResponse', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var newDoc = document.open("text/html", "replace");
+                newDoc.write(this.responseText);
+                newDoc.close();
+            }
+        };
+        xhr.send(JSON.stringify(response));
     }
+
+
+
 
     function dateToString(key) {
         var dateElement = document.getElementById(key);

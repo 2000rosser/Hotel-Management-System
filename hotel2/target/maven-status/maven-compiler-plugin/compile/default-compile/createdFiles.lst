@@ -1,0 +1,15 @@
+service\service\HotelService.class
+service\service\AdminService.class
+service\model\Admin.class
+service\repository\BookingsRepository.class
+service\controllers\HotelController.class
+service\model\Bookings.class
+service\repository\AdminRepository.class
+service\controllers\RoomController.class
+service\service\RoomService.class
+service\controllers\BookingsController.class
+service\model\Room.class
+service\service\BookingsService.class
+service\Application.class
+service\repository\RoomRepository.class
+service\controllers\AdminController.class

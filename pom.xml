@@ -9,6 +9,7 @@
         <module>core</module>
         <module>hms</module>
         <module>hotel</module>
+        <module>hotel2</module>
         <module>client-new</module>
         <module>admin</module>
     </modules>

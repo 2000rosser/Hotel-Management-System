@@ -10,8 +10,7 @@
                 fetch(`http://localhost:8083/bookings/${ref}`, { method: 'GET' })
                     .then(response => response.json())
                     .then(booking => {
-                        // Display booking details
-                        let bookingInfo = `Booking ID: ${booking.ID}, Booking Reference: ${booking.booking_ref}, Type: ${booking.type}, Beds: ${booking.beds}, Bed Size: ${booking.bedSize}, View: ${booking.view}, Balcony: ${booking.balcony}, Accessibility: ${booking.accessibility}, Check-In: ${booking.checkIn}, Check-Out: ${booking.checkOut}, Price: ${booking.price}`;
+                        let bookingInfo = `Hotel: ${booking.hotel}, Booking ID: ${booking.ID}, Booking Reference: ${booking.booking_ref}, Type: ${booking.type}, Beds: ${booking.beds}, Bed Size: ${booking.bedSize}, View: ${booking.view}, Balcony: ${booking.balcony}, Accessibility: ${booking.accessibility}, Check-In: ${booking.checkIn}, Check-Out: ${booking.checkOut}, Price: ${booking.price}`;
                         let bookingDiv = document.createElement("div");
                         bookingDiv.textContent = bookingInfo;
                         bookingsList.appendChild(bookingDiv);

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class BookingInfo {
 	
-	public BookingInfo(int ID, Quotation quote, String name, String email, String phone, int booking_ref, String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, LocalDate checkIn, LocalDate checkOut, int price) {
+	public BookingInfo(int ID, Quotation quote, String name, String email, String phone, int booking_ref, String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, LocalDate checkIn, LocalDate checkOut, int price, String hotel) {
 		this.ID = ID;
 		this.quote = quote;
 		this.name = name;
@@ -20,6 +20,7 @@ public class BookingInfo {
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.price = price;
+		this.hotel = hotel;
 	}
 
 	//guest names array
@@ -43,4 +44,5 @@ public class BookingInfo {
 	public LocalDate checkIn;
 	public LocalDate checkOut;
 	public double price;
+	public String hotel;
 }

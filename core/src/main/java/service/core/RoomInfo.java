@@ -2,7 +2,7 @@ package service.core;
 
 public class RoomInfo {
 	
-	public RoomInfo(int id, String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, int price) {
+	public RoomInfo(int id, String type, int beds, double bedSize, boolean balcony, String view, boolean accessibility, String checkIn, String checkOut, int price, String hotel) {
 		this.id = id;
 		this.type = type;
 		this.beds = beds;
@@ -13,10 +13,9 @@ public class RoomInfo {
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.price = price;
-	}
+		this.hotel = hotel;
+	}	
 
-	//guest names array
-	//reservation ID
 	
 	
 	public RoomInfo() {}
@@ -31,4 +30,5 @@ public class RoomInfo {
 	public String checkIn;
 	public String checkOut;
 	public int price;
+	public String hotel;
 }
