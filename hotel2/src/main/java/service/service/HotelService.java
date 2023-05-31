@@ -21,8 +21,8 @@ import service.model.Room;
 @Service
 public class HotelService extends AbstractQuotationService {
 	// All references are to be prefixed with an AF (e.g. H1F001000)
-	public static final String PREFIX = "H1";
-	public static final String COMPANY = "Hotel One Ltd.";
+	public static final String PREFIX = "H2";
+	public static final String COMPANY = "Hotel Two Ltd.";
 	public double totalPrice = 0;
 	
 
@@ -251,7 +251,7 @@ public class HotelService extends AbstractQuotationService {
 	}
 	
 	public int generateBookingRefNum(BookingInfo info) {
-		info.booking_ref = 1000000000;
+		info.booking_ref = 2000000000;
 		int newBookingRefNum = info.booking_ref + 1 * bookedRooms.size();
 		return newBookingRefNum;
 	}

@@ -141,7 +141,7 @@ public class AdminController {
                 ref
             );
 
-            if(response.getStatusCode().equals(HttpStatus.OK)){
+            if(response.getStatusCode().equals(HttpStatus.OK) && response.getBody() != null){
                 allBookings = response.getBody();
                 System.out.println("Booking recieved" + allBookings);
             }else{

@@ -61,23 +61,25 @@ public class HMSController {
         System.out.println("checkIn: " + roomInfo.checkOut);
         System.out.println("##### ##### #####\n");
 
-        for (Map.Entry<String, String> quotationUrl : hotelUrls.entrySet()) {
-            System.out.println("Requesting quotation from " + quotationUrl.getValue());
-            ResponseEntity<ArrayList<Quotation>> response = restTemplate.exchange(
-                    quotationUrl.getValue() + "/quotations",
-                    HttpMethod.POST,
-                    new HttpEntity<>(roomInfo),
-                    new ParameterizedTypeReference<ArrayList<Quotation>>() {
-                    }
-            );
-            if (response.getStatusCode().equals(HttpStatus.CREATED)) {
-                ArrayList<Quotation> quotations = response.getBody();
-                application.quotations.addAll(quotations);
-            } else {
-                System.out.println("Error requesting quotation from " + quotationUrl + ". Response status: "
-                        + response.getStatusCode());
-            }
+        String hotelUrl = hotelUrls.get(roomInfo.hotel);
+
+        
+        System.out.println("Requesting quotation from " + hotelUrl);
+        ResponseEntity<ArrayList<Quotation>> response = restTemplate.exchange(
+                hotelUrl + "/quotations",
+                HttpMethod.POST,
+                new HttpEntity<>(roomInfo),
+                new ParameterizedTypeReference<ArrayList<Quotation>>() {
+                }
+        );
+        if (response.getStatusCode().equals(HttpStatus.CREATED)) {
+            ArrayList<Quotation> quotations = response.getBody();
+            application.quotations.addAll(quotations);
+        } else {
+            System.out.println("Error requesting quotation from " + hotelUrl + ". Response status: "
+                    + response.getStatusCode());
         }
+        
 
         System.out.println("Application created and saved. Returning application with status CREATED.");
         return ResponseEntity
