@@ -3,7 +3,6 @@ package service.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.w3c.dom.html.HTMLParagraphElement;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -18,8 +17,7 @@ public class PaymentsController {
     @ResponseBody
     public String handlePayments(@RequestParam("responseArg") String responseArg) {
         // Process the response argument and generate the appropriate HTML content
-        //{"company":"Auld Fellas Ltd.","reference":"AF001000","totalPrice":110,"roomInfo":{"type":"Single","beds":1,"bedSize":1,"balcony":false,"view":"Sea View","accessibility":false,"checkIn":"2023-05-28","checkOut":"2023-05-29","price":2},"roomId":1}
-        
+
         String type = roomInfoElement(responseArg, "type");
         int beds = Integer.parseInt(roomInfoElement(responseArg, "beds"));
         double bedSize = Double.parseDouble(roomInfoElement(responseArg, "bedSize"));
@@ -45,7 +43,7 @@ public class PaymentsController {
                     + "    <body>\n"
                     +       getNavbar()
                     + "        <form id=\"paymentForm\">\n"
-                    + "             <h1>Payment Page</h1>\n"
+                    + "             <h2>Payment Page</h2><hr><br><br>\n"
 
                     + "             <label for=\"name\">Name</label>"
                     + "             <input type=\"text\" id=\"name\" name=\"name\"><br><br>"
@@ -123,7 +121,7 @@ public class PaymentsController {
             e.printStackTrace();
             return "<html>\n"
                     + "    <body>\n"
-                    + "        <h1>Error</h1>\n"
+                    + "        <h2>Error</h2><hr><br>\n"
                     + "        <p>An error occurred while processing the payment.</p>\n"
                     + "    </body>\n"
                     + "</html>";
