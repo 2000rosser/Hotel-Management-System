@@ -64,26 +64,32 @@ public class BookingsController {
     }
 
     @GetMapping("/bookings/ref/{ref}")  
-    private BookingInfo getBookingByRef(@PathVariable("ref") int ref) {  
-        BookingInfo bookingInfo = new BookingInfo();
-        Bookings booking = bookingsService.getBookingByBookingRef(ref);
-        bookingInfo.ID = booking.getId();
-        bookingInfo.name = booking.getName();
-        bookingInfo.email = booking.getEmail();
-        bookingInfo.phone = booking.getPhone();
-        bookingInfo.booking_ref = booking.getBookingRef();
-        bookingInfo.type = booking.getType();
-        bookingInfo.beds = booking.getBeds();
-        bookingInfo.bedSize = booking.getBedSize();
-        bookingInfo.balcony = booking.isBalcony();
-        bookingInfo.view = booking.getView();
-        bookingInfo.accessibility = booking.isAccessible();
-        bookingInfo.checkIn = booking.getCheckInDate();
-        bookingInfo.checkOut = booking.getCheckOutDate();
-        bookingInfo.price = booking.getPrice();
-        bookingInfo.hotel = booking.getHotel();
+    private BookingInfo getBookingByRef(@PathVariable("ref") int ref) { 
+        if (bookingsService.getBookingByBookingRef(ref) == null) {
+            return null;
+        } else{
+            BookingInfo bookingInfo = new BookingInfo();
+            Bookings booking = bookingsService.getBookingByBookingRef(ref);
+            bookingInfo.ID = booking.getId();
+            bookingInfo.name = booking.getName();
+            bookingInfo.email = booking.getEmail();
+            bookingInfo.phone = booking.getPhone();
+            bookingInfo.booking_ref = booking.getBookingRef();
+            bookingInfo.type = booking.getType();
+            bookingInfo.beds = booking.getBeds();
+            bookingInfo.bedSize = booking.getBedSize();
+            bookingInfo.balcony = booking.isBalcony();
+            bookingInfo.view = booking.getView();
+            bookingInfo.accessibility = booking.isAccessible();
+            bookingInfo.checkIn = booking.getCheckInDate();
+            bookingInfo.checkOut = booking.getCheckOutDate();
+            bookingInfo.price = booking.getPrice();
+            bookingInfo.hotel = booking.getHotel();
 
-        return bookingInfo;  
+            return bookingInfo;
+        }
+        
+
     }
 
     @DeleteMapping("/bookings/ref/{ref}")  
