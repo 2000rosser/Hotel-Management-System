@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotel2-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotel2-service
+  template:
+    metadata:
+      labels:
+        app: hotel2-service
+    spec:
+      containers:
+        - name: hotel2-service
+          image: 2000rosser/hotel2:latest
+          ports:
+            - containerPort: 8081
